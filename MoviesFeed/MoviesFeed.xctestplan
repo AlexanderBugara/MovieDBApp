@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "4321AEB0-3C63-40FF-A5B3-79668E8F3F57",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:MoviesFeed.xcodeproj",
+        "identifier" : "C8CA408F2ECBE72A00259113",
+        "name" : "MoviesFeedTests"
+      }
+    }
+  ],
+  "version" : 1
+}
