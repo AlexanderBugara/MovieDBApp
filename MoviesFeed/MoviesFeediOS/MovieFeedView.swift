@@ -18,13 +18,12 @@ class MovieFeedViewModel: ObservableObject {
             MoviePreviewModel(title: "movie preview model title 4")
         ],
         isLoading: false,
-        errorMessage: nil)
-    
+        errorMessage: "message")
 }
 
 public struct MovieFeedView: View {
     @StateObject var model: MovieFeedViewModel
-    
+    @State private var toast: Toast?
     public init() {
         self._model = StateObject(wrappedValue: MovieFeedViewModel())
     }
@@ -37,7 +36,25 @@ public struct MovieFeedView: View {
                 }
             }
         }
+        .toast($toast)
+        .onChange(of: model.moviesFeedUIState) { _, uiState in
+            guard let errorMessage = uiState.errorMessage else {
+                return
+            }
+            toast = Toast(message: errorMessage)
+        }
         .padding()
+        .task {
+            model.moviesFeedUIState = MoviesFeedUIState(
+                feed: [
+                    MoviePreviewModel(title: "movie preview model title 1"),
+                    MoviePreviewModel(title: "movie preview model title 2"),
+                    MoviePreviewModel(title: "movie preview model title 3"),
+                    MoviePreviewModel(title: "movie preview model title 4")
+                ],
+                isLoading: false,
+                errorMessage: "message")
+        }
     }
 }
 

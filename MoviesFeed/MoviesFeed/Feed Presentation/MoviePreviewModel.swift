@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MoviePreviewModel {
+public struct MoviePreviewModel: Equatable {
     public let id = UUID()
     public let title: String
     public init(title: String) {

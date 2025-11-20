@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MoviesFeedUIState {
+public struct MoviesFeedUIState: Equatable {
     public let feed: [MoviePreviewModel]
     public let isLoading: Bool
     public let errorMessage: String?
