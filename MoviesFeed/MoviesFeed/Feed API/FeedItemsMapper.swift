@@ -10,7 +10,9 @@ import Foundation
 public final class FeedItemsMapper {
     private struct Root: Decodable {
         private let results: [RemoteFeedItem]
-
+        private let total_pages: Int
+        private let total_results: Int
+        
         private struct RemoteFeedItem: Decodable {
             let id: Int
             let title: String
@@ -25,8 +27,15 @@ public final class FeedItemsMapper {
             }
         }
         
-        var movies: [MovieItem] {
+        private var movies: [MovieItem] {
             results.map { MovieItem(id: $0.id, title: $0.title) }
+        }
+        
+        var page: MoviePage {
+            MoviePage(
+                totalPages: total_pages,
+                totalElements: total_results,
+                movies: movies)
         }
     }
     
@@ -34,11 +43,10 @@ public final class FeedItemsMapper {
         case invalidData
     }
     
-    public static func map(_ data: Data, from response: HTTPURLResponse) throws -> [MovieItem] {
+    public static func map(_ data: Data, from response: HTTPURLResponse) throws -> MoviePage {
         guard response.isOK, let root = try? JSONDecoder().decode(Root.self, from: data) else {
             throw Error.invalidData
         }
-        
-        return root.movies
+        return root.page
     }
 }

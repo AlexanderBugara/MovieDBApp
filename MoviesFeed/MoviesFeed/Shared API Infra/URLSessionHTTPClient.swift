@@ -15,8 +15,9 @@ public final class URLSessionHTTPClient: HTTPClient {
         self.session = session
     }
     
-    public func get(from url: URL) -> AnyPublisher<(Data, HTTPURLResponse), Error> {
-        session.dataTaskPublisher(for: url)
+    public func get(from request: URLRequest) -> AnyPublisher<(Data, HTTPURLResponse), Error> {
+        session
+            .dataTaskPublisher(for: request)
             .tryMap { output -> (Data, HTTPURLResponse) in
                 guard let httpResponse = output.response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)

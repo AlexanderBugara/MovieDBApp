@@ -23,24 +23,23 @@ final class MoviesFeedAPIEndToEndTests: XCTestCase {
                     }
                     expectation.fulfill()
                 },
-                receiveValue: { movieFeed in
-                    print("Received items: \(movieFeed)")
-                    XCTAssertFalse(movieFeed.isEmpty, "Feed should not be empty")
-                    XCTAssertEqual(movieFeed.count, 20, "Expected 20 movies in the feed")
+                receiveValue: { page in
+                    XCTAssertFalse(page.movies.isEmpty, "Feed should not be empty")
+                    XCTAssertEqual(page.movies.count, 20, "Expected 20 movies in the feed")
                 }
             )
         
         wait(for: [expectation], timeout: 5)
     }
+    
     private var feedTestServerURL: URL {
-        let apiKey = ProcessInfo.processInfo.environment["TMDB_API_KEY"]!
-        return URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")!
+        return URL(string: "https://api.themoviedb.org/3/movie/now_playing")!
     }
     
     
-    private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> AnyPublisher<[MovieItem], Error> {
+    private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> AnyPublisher<MoviePage, Error> {
         ephemeralClient()
-            .get(from: feedTestServerURL)
+            .get(from: FeedRequest.makeAuthorizedRequest(url: feedTestServerURL))
             .tryMap(FeedItemsMapper.map)
             .eraseToAnyPublisher()
     }

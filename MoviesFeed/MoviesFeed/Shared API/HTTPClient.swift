@@ -9,5 +9,5 @@ import Foundation
 import Combine
 
 public protocol HTTPClient {
-    func get(from url: URL) -> AnyPublisher<(Data, HTTPURLResponse), Error>
+    func get(from request: URLRequest) -> AnyPublisher<(Data, HTTPURLResponse), Error>
 }

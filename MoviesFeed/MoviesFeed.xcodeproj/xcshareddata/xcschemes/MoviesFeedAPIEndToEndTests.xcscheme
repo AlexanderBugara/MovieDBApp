@@ -42,6 +42,11 @@
             value = "4737a08fac38683031b99ef6e5ca184a"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "bearer"
+            value = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NzM3YTA4ZmFjMzg2ODMwMzFiOTllZjZlNWNhMTg0YSIsIm5iZiI6MTc2MzQyMTEzMC40MjgsInN1YiI6IjY5MWJhYmNhMGZkNjEwM2U4MzQ0NmNiNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.q7bbr5mNKX1HldPDcVjYPUEHlZYNVjh00okOh44_a48"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction

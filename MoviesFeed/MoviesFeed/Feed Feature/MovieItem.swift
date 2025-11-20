@@ -17,3 +17,9 @@ public struct MovieItem: Hashable {
         self.title = title
     }
 }
+
+public struct MoviePage {
+    public let totalPages: Int
+    public let totalElements: Int
+    public let movies: [MovieItem]
+}
