@@ -24,6 +24,11 @@
 		C8AE8FF12ECE63850043DA0A /* Paginated.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FF02ECE63850043DA0A /* Paginated.swift */; };
 		C8AE8FF32ECE6CEC0043DA0A /* FeedEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FF22ECE6CEC0043DA0A /* FeedEndpoint.swift */; };
 		C8AE8FF52ECFA09F0043DA0A /* FeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FF42ECFA09F0043DA0A /* FeedRequest.swift */; };
+		C8AE8FF72ECFA7150043DA0A /* MovieFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */; };
+		C8AE8FFD2ECFA92F0043DA0A /* MoviesFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CA40B22ECBE87200259113 /* MoviesFeed.framework */; platformFilter = ios; };
+		C8AE90002ECFAA860043DA0A /* MoviesFeedUIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FFF2ECFAA860043DA0A /* MoviesFeedUIState.swift */; };
+		C8AE90022ECFB0B10043DA0A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90012ECFB0B10043DA0A /* MovieCell.swift */; };
+		C8AE90042ECFB2E30043DA0A /* MoviePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */; };
 		C8CA40C22ECBE87200259113 /* DataLayerFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C8CA40B42ECBE87200259113 /* DataLayerFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8CA40CF2ECBE9E300259113 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CA40CE2ECBE9E300259113 /* API.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +90,10 @@
 		C8AE8FF02ECE63850043DA0A /* Paginated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paginated.swift; sourceTree = "<group>"; };
 		C8AE8FF22ECE6CEC0043DA0A /* FeedEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEndpoint.swift; sourceTree = "<group>"; };
 		C8AE8FF42ECFA09F0043DA0A /* FeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRequest.swift; sourceTree = "<group>"; };
+		C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieFeedView.swift; sourceTree = "<group>"; };
+		C8AE8FFF2ECFAA860043DA0A /* MoviesFeedUIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesFeedUIState.swift; sourceTree = "<group>"; };
+		C8AE90012ECFB0B10043DA0A /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePreviewModel.swift; sourceTree = "<group>"; };
 		C8CA40B22ECBE87200259113 /* MoviesFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MoviesFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8CA40B42ECBE87200259113 /* DataLayerFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataLayerFramework.h; sourceTree = "<group>"; };
 		C8CA40CE2ECBE9E300259113 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -103,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8AE8FFD2ECFA92F0043DA0A /* MoviesFeed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				C8AE8FBB2ECD08F90043DA0A /* MoviesFeediOS.h */,
+				C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */,
+				C8AE90012ECFB0B10043DA0A /* MovieCell.swift */,
 			);
 			path = MoviesFeediOS;
 			sourceTree = "<group>";
@@ -215,6 +227,15 @@
 			path = MoviesFeedAPIEndToEndTests;
 			sourceTree = "<group>";
 		};
+		C8AE8FFE2ECFA9960043DA0A /* Feed Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				C8AE8FFF2ECFAA860043DA0A /* MoviesFeedUIState.swift */,
+				C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */,
+			);
+			path = "Feed Presentation";
+			sourceTree = "<group>";
+		};
 		C8CA40772ECBE72900259113 = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +265,7 @@
 		C8CA40B32ECBE87200259113 /* MoviesFeed */ = {
 			isa = PBXGroup;
 			children = (
+				C8AE8FFE2ECFA9960043DA0A /* Feed Presentation */,
 				C8AE8FDB2ECD15A90043DA0A /* Feed API */,
 				C8AE8FD42ECD135A0043DA0A /* Feed Feature */,
 				C8AE8FCE2ECD0EBF0043DA0A /* Shared API */,
@@ -383,6 +405,7 @@
 					};
 					C8AE8FB82ECD08F90043DA0A = {
 						CreatedOnToolsVersion = 15.2;
+						LastSwiftMigration = 1520;
 					};
 					C8AE8FBF2ECD08F90043DA0A = {
 						CreatedOnToolsVersion = 15.2;
@@ -469,6 +492,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8AE90022ECFB0B10043DA0A /* MovieCell.swift in Sources */,
+				C8AE8FF72ECFA7150043DA0A /* MovieFeedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +521,8 @@
 				C8AE8FF52ECFA09F0043DA0A /* FeedRequest.swift in Sources */,
 				C8AE8F082ECCF7250043DA0A /* FeedLoader.swift in Sources */,
 				C8CA40CF2ECBE9E300259113 /* API.swift in Sources */,
+				C8AE90002ECFAA860043DA0A /* MoviesFeedUIState.swift in Sources */,
+				C8AE90042ECFB2E30043DA0A /* MoviePreviewModel.swift in Sources */,
 				C8AE8FD02ECD0EF20043DA0A /* HTTPClient.swift in Sources */,
 				C8AE8FDD2ECD15C20043DA0A /* FeedItemsMapper.swift in Sources */,
 				C8AE8FE02ECD16460043DA0A /* HTTPURLResponse.swift in Sources */,
@@ -567,6 +594,7 @@
 		C8AE8FC92ECD08F90043DA0A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -590,6 +618,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -600,6 +629,7 @@
 		C8AE8FCA2ECD08F90043DA0A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -633,6 +663,7 @@
 		C8AE8FCC2ECD08F90043DA0A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9D83MC32AG;
@@ -649,6 +680,7 @@
 		C8AE8FCD2ECD08F90043DA0A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9D83MC32AG;

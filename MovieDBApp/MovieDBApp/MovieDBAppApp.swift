@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import MoviesFeed
+import MoviesFeediOS
 
 @main
 struct MovieDBAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MovieFeedView()
         }
     }
 }
