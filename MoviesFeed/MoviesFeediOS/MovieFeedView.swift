@@ -24,15 +24,17 @@ class MovieFeedViewModel: ObservableObject {
 public struct MovieFeedView: View {
     @StateObject var model: MovieFeedViewModel
     @State private var toast: Toast?
-    public init() {
+    let cell: (MoviePreviewModel) -> MovieCell
+    public init(cell: @escaping (MoviePreviewModel) -> MovieCell) {
+        self.cell = cell
         self._model = StateObject(wrappedValue: MovieFeedViewModel())
     }
     
     public var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(model.moviesFeedUIState.feed, id: \.id) {_ in 
-                    MovieCell()
+                ForEach(model.moviesFeedUIState.feed, id: \.id) { movie in
+                    MovieCell(model: movie)
                 }
             }
         }
@@ -59,5 +61,7 @@ public struct MovieFeedView: View {
 }
 
 #Preview {
-    MovieFeedView()
+    MovieFeedView(cell: { _ in
+        MovieCell(model: MoviePreviewModel(title: "movie preview model title 1"))
+    })
 }

@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import MoviesFeed
 
-struct MovieCell: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+public struct MovieCell: View {
+    private let model: MoviePreviewModel
+    public init(model: MoviePreviewModel) {
+        self.model = model
+    }
+    public var body: some View {
+        Text(model.title)
     }
 }
 
 #Preview {
-    MovieCell()
+    MovieCell(model: MoviePreviewModel(title: "movie preview model title 1"))
 }

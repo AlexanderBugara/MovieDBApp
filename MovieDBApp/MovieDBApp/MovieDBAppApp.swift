@@ -13,7 +13,11 @@ import MoviesFeediOS
 struct MovieDBAppApp: App {
     var body: some Scene {
         WindowGroup {
-            MovieFeedView()
+            MovieFeedView(
+                cell: { movieVieModel in
+                    MovieCell(model: movieVieModel)
+                }
+            )
         }
     }
 }
