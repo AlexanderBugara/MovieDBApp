@@ -7,19 +7,20 @@
 
 import Foundation
 
-public struct MovieItem: Hashable {
+public struct FeedMovie: Hashable {
     public let id: Int
-    public let title: String
+    public let name: String
+    public let posterPath: String
     
-    
-    public init(id: Int, title: String) {
+    public init(id: Int, name: String, posterPath: String) {
         self.id = id
-        self.title = title
+        self.name = name
+        self.posterPath = posterPath
     }
 }
 
 public struct MoviePage {
     public let totalPages: Int
     public let totalElements: Int
-    public let movies: [MovieItem]
+    public let movies: [FeedMovie]
 }

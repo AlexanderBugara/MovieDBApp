@@ -8,7 +8,7 @@
 import Foundation
 
 public enum FeedEndpoint {
-    case get(after: Int)
+    case get(after: FeedMovie?)
     
     public func url(baseURL: URL) -> URL {
         switch self {

@@ -8,16 +8,15 @@
 import SwiftUI
 import MoviesFeed
 import MoviesFeediOS
+import Combine
 
 @main
 struct MovieDBAppApp: App {
+    let compositionRoot = CompositionRoot()
+    
     var body: some Scene {
         WindowGroup {
-            MovieFeedView(
-                cell: { movieVieModel in
-                    MovieCell(model: movieVieModel)
-                }
-            )
+            compositionRoot.makeFeedView()
         }
     }
 }

@@ -27,8 +27,12 @@ public final class FeedItemsMapper {
             }
         }
         
-        private var movies: [MovieItem] {
-            results.map { MovieItem(id: $0.id, title: $0.title) }
+        private var movies: [FeedMovie] {
+            results.map { FeedMovie(
+                id: $0.id,
+                name: $0.title, 
+                posterPath: $0.posterPath ?? "")
+            }
         }
         
         var page: MoviePage {

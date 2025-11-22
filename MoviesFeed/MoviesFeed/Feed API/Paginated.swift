@@ -14,7 +14,7 @@ public struct Paginated<Item> {
     public let items: [Item]
     public let loadMorePublisher: (() -> AnyPublisher<Self, Error>)?
     
-    init(items: [Item], loadMorePublisher: (() -> AnyPublisher<Self, Error>)?) {
+    public init(items: [Item], loadMorePublisher: (() -> AnyPublisher<Self, Error>)?) {
         self.items = items
         self.loadMorePublisher = loadMorePublisher
     }

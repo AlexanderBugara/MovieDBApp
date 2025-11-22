@@ -1,0 +1,8 @@
+/* 
+  Shared.strings
+  MoviesFeed
+
+  Created by Oleksandr Buhara on 11/22/25.
+  
+*/
+"GENERIC_CONNECTION_ERROR" = "Не удалось подключиться к серверу.";
