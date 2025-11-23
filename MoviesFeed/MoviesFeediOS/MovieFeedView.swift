@@ -14,12 +14,13 @@ public struct MovieFeedView: View {
     @State private var toast: Toast?
     @State var query: String = ""
     public var onRefresh: ((Void?) -> Void)?
-    public var onPerformSearch: ((String) -> Void)?
+    public var onPerformSearch: ((Query) -> Void)?
+    @State private var hasAppeared = false
     
     public init(
         model: FeedMovieViewModel,
         onRefresh: ((Void?) -> Void)?,
-        onPerformSearch: ((String) -> Void)?
+        onPerformSearch: ((Query) -> Void)?
     ) {
         self.onRefresh = onRefresh
         self.model = model
@@ -31,8 +32,16 @@ public struct MovieFeedView: View {
             .padding()
             .textFieldStyle(.roundedBorder)
             .task(id: query) {
+                if !hasAppeared {
+                    hasAppeared = true
+                    return
+                }
                 try? await Task.sleep(for: .milliseconds(350))
-                onPerformSearch?(query)
+                guard !query.isEmpty else {
+                    onRefresh?(())
+                    return
+                }
+                onPerformSearch?(Query(page: 1, text: query))
             }
         
         ScrollView {

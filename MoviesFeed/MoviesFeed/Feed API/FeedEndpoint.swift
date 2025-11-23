@@ -9,7 +9,7 @@ import Foundation
 
 public enum FeedEndpoint {
     case get(index: Int)
-    case search(query: String)
+    case search(query: Query)
     public func url(baseURL: URL) -> URL {
         switch self {
         case let .get(index):
@@ -28,8 +28,10 @@ public enum FeedEndpoint {
             components.host = baseURL.host
             components.path = baseURL.path + "/3/search/movie"
             components.queryItems = [
-                .init(name: "api_key", value: apiKey),
-                .init(name: "query", value: query)
+                URLQueryItem(name: "api_key", value: apiKey),
+                URLQueryItem(name: "query", value: query.text),
+                URLQueryItem(name: "language", value: "en-US"),
+                URLQueryItem(name: "page", value: "\(query.page)")
             ].compactMap { $0 }
             
             return components.url!

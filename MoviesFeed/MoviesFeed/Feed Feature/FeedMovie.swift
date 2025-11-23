@@ -30,3 +30,8 @@ public struct FeedMoviePage: Hashable {
         self.feed = feed
     }
 }
+extension FeedMoviePage {
+    public static var empty: FeedMoviePage {
+        FeedMoviePage(index: 0, total: 0, feed: [])
+    }
+}

@@ -12,6 +12,8 @@ import Combine
 
 private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter, Void>
 
+private typealias FeedSearchPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter, Query>
+
 class CompositionRoot {
     let itemsPerPage = 20
     
@@ -21,6 +23,7 @@ class CompositionRoot {
     
     private let scheduler = DispatchQueue(label: "com.db.movie", qos: .userInitiated)
     private lazy var store: FeedStore & FeedImageDataStore = InMemoryFeedStore()
+    private lazy var searchStorage: FeedStore & FeedImageDataStore = InMemoryFeedStore()
     
     private lazy var baseURL = URL(string: "https://api.themoviedb.org")!
     private lazy var baseImageURL = URL(string: "https://image.tmdb.org")!
@@ -33,23 +36,33 @@ class CompositionRoot {
         LocalFeedLoader(store: store)
     }()
     
+    private lazy var localFeedSearchLoader: LocalFeedLoader = {
+        LocalFeedLoader(store: searchStorage)
+    }()
+    
     func makeFeedView() -> MovieFeedView {
-        let presenterAdapter = FeedPresentationAdapter(loader: { _  in
+        let presenterAdapter = FeedPresentationAdapter(loader: {_ in
             self.makeRemoteFeedLoaderWithLocalFallback(())
         })
         let viewModel = FeedMovieViewModel()
-        presenterAdapter.presenter = LoadResourcePresenter(
+        let presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
                 viewModel: viewModel,
                 imageLoader: self.makeLocalImageLoaderWithRemoteFallback,
                 selection: {_ in}),
             loadingView: WeakRefVirtualProxy(viewModel),
             errorView: WeakRefVirtualProxy(viewModel))
-                                                       
+        presenterAdapter.presenter = presenter
+
+        let searchAdapter = FeedSearchPresentationAdapter(loader: { query in
+            self.makeRemoteSearchLoader(query: query)
+        })
+        searchAdapter.presenter = presenter
+        
         return MovieFeedView(
             model: viewModel,
             onRefresh: presenterAdapter.loadResource,
-            onPerformSearch: {_ in })
+            onPerformSearch: searchAdapter.loadResource)
     }
     
     private func makeRemoteFeedLoaderWithLocalFallback(_ void: Void?) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
@@ -111,5 +124,56 @@ class CompositionRoot {
             })
             .subscribe(on: scheduler)
             .eraseToAnyPublisher()
+    }
+}
+
+extension CompositionRoot {
+    func makeRemoteSearchLoader(query: Query?) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
+        try? searchStorage.deleteCachedFeed()
+        return makeRemoteSearchFeedLoader(query: query)
+            .receive(on: scheduler)
+            .caching(to: localFeedSearchLoader)
+            .map { [unowned self] page in self.makeSearchMorePage(page: page, query: query?.text ?? "") }
+            .eraseToAnyPublisher()
+    }
+    
+    func makeRemoteSearchMoreLoader(query: Query?) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
+        return localFeedSearchLoader.loadPublisher()
+            .zip(makeRemoteSearchFeedLoader(query: query))
+            .map { (cachedPage, newPage) in
+                (FeedMoviePage(
+                    index: newPage.index,
+                    total: newPage.total,
+                    feed: cachedPage.feed + newPage.feed),
+                 query?.text ?? "")
+            }
+            .map(makeSearchMorePage)
+            .receive(on: scheduler)
+            .caching(to: localFeedSearchLoader)
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
+    }
+    
+    private func makeRemoteSearchFeedLoader(query: Query?) -> AnyPublisher<FeedMoviePage, Error> {
+        guard let query = query else {
+            return Just(FeedMoviePage.empty)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+        }
+        let url = FeedEndpoint.search(query: query).url(baseURL: baseURL)
+        
+        return httpClient
+            .get(from: FeedRequest.makeAuthorizedRequest(url: url))
+            .map { [unowned self] result in
+                (result.0, result.1, self.baseImageURL)
+            }
+            .tryMap(FeedItemsMapper.map)
+            .eraseToAnyPublisher()
+    }
+    
+    private func makeSearchMorePage(page: FeedMoviePage, query: String) -> Paginated<FeedMoviePage> {
+        Paginated(item: page, loadMorePublisher: { [unowned self] _ in
+            self.makeRemoteSearchMoreLoader(query: Query(page: page.index + 1, text: query))
+        })
     }
 }
