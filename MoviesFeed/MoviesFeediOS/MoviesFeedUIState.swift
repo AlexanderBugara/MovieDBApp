@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import MoviesFeed
 
 public struct MoviesFeedUIState: Equatable {
-    public let feed: [MoviePreviewModel]
+    public let feed: [CellController]
     public let isLoading: Bool
     public let errorMessage: String?
     
-    public init(feed: [MoviePreviewModel], isLoading: Bool, errorMessage: String?) {
+    public init(feed: [CellController], isLoading: Bool, errorMessage: String?) {
         self.feed = feed
         self.isLoading = isLoading
         self.errorMessage = errorMessage

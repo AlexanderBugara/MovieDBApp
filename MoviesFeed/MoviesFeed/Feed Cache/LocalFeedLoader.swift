@@ -16,33 +16,44 @@ public final class LocalFeedLoader {
 }
 
 extension LocalFeedLoader: FeedCache {
-    public func save(_ feed: [FeedMovie]) throws {
+    public func save(_ page: FeedMoviePage) throws {
         try store.deleteCachedFeed()
-        try store.insert(feed.toLocal())
+        try store.insert(page.toLocal())
     }
 }
 
 extension LocalFeedLoader {
-    public func load() throws -> [FeedMovie] {
-        if let feed = try store.retrieve() {
-            return feed.toModels()
+    public func load() throws -> FeedMoviePage {
+        if let page = try store.retrieve() {
+            return page.toModel()
         }
-        return []
+        return FeedMoviePage(index: 0, total: 0, feed: [])
     }
 }
 
 private extension Array where Element == FeedMovie {
     func toLocal() -> [LocalFeedMovie] {
         return map { 
-            LocalFeedMovie(id: $0.id, name: $0.name, posterPath: $0.posterPath)
+            LocalFeedMovie(id: $0.id, name: $0.name, url: $0.url)
         }
     }
 }
 
 private extension Array where Element == LocalFeedMovie {
     func toModels() -> [FeedMovie] {
-        return map { 
-            FeedMovie(id: $0.id, name: $0.name ?? "", posterPath: $0.posterPath)
+        return map {
+            return FeedMovie(id: $0.id, name: $0.name ?? "", url: $0.url)
         }
+    }
+}
+
+private extension FeedMoviePage {
+    func toLocal() -> LocalFeedPage {
+        LocalFeedPage(index: index, total: total, feed: feed.toLocal())
+    }
+}
+private extension LocalFeedPage {
+    func toModel() -> FeedMoviePage {
+        FeedMoviePage(index: index, total: total, feed: feed.toModels())
     }
 }

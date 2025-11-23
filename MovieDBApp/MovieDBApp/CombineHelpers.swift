@@ -32,7 +32,7 @@ public extension FeedImageDataLoader {
 }
 
 public extension LocalFeedLoader {
-    typealias Publisher = AnyPublisher<[FeedMovie], Error>
+    typealias Publisher = AnyPublisher<FeedMoviePage, Error>
     
     func loadPublisher() -> Publisher {
         Deferred {
@@ -45,11 +45,11 @@ public extension LocalFeedLoader {
 }
 
 extension Publisher {
-    func caching(to cache: FeedCache) -> AnyPublisher<Output, Failure> where Output == [FeedMovie] {
+    func caching(to cache: FeedCache) -> AnyPublisher<Output, Failure> where Output == FeedMoviePage {
         handleEvents(receiveOutput: cache.saveIgnoringResult).eraseToAnyPublisher()
     }
     
-    func caching(to cache: FeedCache) -> AnyPublisher<Output, Failure> where Output == Paginated<FeedMovie> {
+    func caching(to cache: FeedCache) -> AnyPublisher<Output, Failure> where Output == Paginated<FeedMoviePage> {
         handleEvents(receiveOutput: cache.saveIgnoringResult).eraseToAnyPublisher()
     }
 }
@@ -61,12 +61,12 @@ private extension FeedImageDataCache {
 }
 
 private extension FeedCache {
-    func saveIgnoringResult(_ feed: [FeedMovie]) {
+    func saveIgnoringResult(_ feed: FeedMoviePage) {
         try? save(feed)
     }
     
-    func saveIgnoringResult(_ page: Paginated<FeedMovie>) {
-        saveIgnoringResult(page.items)
+    func saveIgnoringResult(_ page: Paginated<FeedMoviePage>) {
+        saveIgnoringResult(page.item)
     }
 }
 

@@ -7,35 +7,33 @@
 
 import SwiftUI
 import MoviesFeed
+import MoviesFeediOS
 
 final class FeedViewAdapter: ResourceView {
     private weak var viewModel: FeedMovieViewModel?
     private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
     private let selection: (FeedMovie) -> Void
-    private let imageURL: (FeedMovie) -> URL
-    private let currentFeed: [FeedMovie: MoviePreviewModel]
+    private let currentFeed: [FeedMovie: CellController]
     
     private typealias ImageDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<MoviePreviewModel>>
     
-    private typealias LoadMorePresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMovie>, FeedViewAdapter>
+    private typealias LoadMorePresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter>
     
-    init(currentFeed: [FeedMovie: MoviePreviewModel] = [:], 
-         imageURL: @escaping (FeedMovie) -> URL,
+    init(currentFeed: [FeedMovie: CellController] = [:],
          viewModel: FeedMovieViewModel,
          imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher,
          selection: @escaping (FeedMovie) -> Void) {
         self.currentFeed = currentFeed
-        self.imageURL = imageURL
         self.viewModel = viewModel
         self.imageLoader = imageLoader
         self.selection = selection
     }
     
-    func display(_ page: Paginated<FeedMovie>) {
+    func display(_ page: Paginated<FeedMoviePage>) {
         guard let viewModel = viewModel else { return }
         
         var currentFeed = self.currentFeed
-        let feed: [MoviePreviewModel] = page.items.compactMap { [weak self] model in
+        let feed: [CellController] = page.item.feed.compactMap { [weak self] model in
             guard let self = self else {
                 return nil
             }
@@ -44,19 +42,22 @@ final class FeedViewAdapter: ResourceView {
             }
             
             let adapter = ImageDataPresentationAdapter(loader: { [imageLoader] in
-                imageLoader(self.imageURL(model))
+                imageLoader(model.url)
             })
             
             let preview = MoviePreviewModel(title: model.name)
+            let cellController = CellController(
+                id: model,
+                FeedMovieCellController(viewModel: preview))
             
-            adapter.presenter = LoadResourcePresenter(
-                resourceView: WeakRefVirtualProxy(preview),
-                loadingView: WeakRefVirtualProxy(viewModel),
-                errorView: WeakRefVirtualProxy(viewModel),
-                mapper: Image.tryMake)
+//            adapter.presenter = LoadResourcePresenter(
+//                resourceView: WeakRefVirtualProxy(preview),
+//                loadingView: WeakRefVirtualProxy(preview),
+//                errorView: WeakRefVirtualProxy(preview),
+//                mapper: Image.tryMake)
             
-            currentFeed[model] = preview
-            return preview
+            currentFeed[model] = cellController
+            return cellController
         }
         
         guard let loadMorePublisher = page.loadMorePublisher else {
@@ -64,7 +65,23 @@ final class FeedViewAdapter: ResourceView {
             return
         }
         
-        viewModel.display(feed)
+        let loadMoreAdapter = LoadMorePresentationAdapter(loader: loadMorePublisher)
+        let loadMoreViewModel = LoadMoreViewModel()
+        let loadMore = LoadMoreCellController(
+            cellViewModel: loadMoreViewModel,
+            callback: loadMoreAdapter.loadResource)
+        
+        loadMoreAdapter.presenter = LoadResourcePresenter(
+            resourceView: FeedViewAdapter(
+                currentFeed: currentFeed,
+                viewModel: viewModel,
+                imageLoader: imageLoader,
+                selection: selection
+            ),
+            loadingView: WeakRefVirtualProxy(loadMoreViewModel),
+            errorView: WeakRefVirtualProxy(loadMoreViewModel))
+        
+        viewModel.display(feed + [CellController(id: UUID(), loadMore)])
     }
 }
 
@@ -79,13 +96,10 @@ extension Image {
     }
 }
 extension MoviePreviewModel: ResourceView {
+    public typealias ResourceViewModel = Image
     public func display(_ resourceModel: Image) {
         
     }
-    
-    public typealias ResourceViewModel = Image
-    
-    
 }
 
 extension FeedMovieViewModel: ResourceLoadingView {

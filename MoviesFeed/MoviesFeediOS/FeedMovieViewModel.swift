@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MoviesFeed
 
 public class FeedMovieViewModel: ObservableObject {
     @Published public var moviesFeedUIState: MoviesFeedUIState
@@ -21,9 +22,9 @@ public class FeedMovieViewModel: ObservableObject {
         
     }
     
-    public func display(_ movies: [MoviePreviewModel]) {
+    public func display(_ controllers: [CellController]) {
         moviesFeedUIState = MoviesFeedUIState(
-            feed: movies,
+            feed: controllers,
             isLoading: false,
             errorMessage: nil)
     }

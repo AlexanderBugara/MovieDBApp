@@ -10,17 +10,22 @@ import Foundation
 public struct FeedMovie: Hashable {
     public let id: Int
     public let name: String
-    public let posterPath: String
+    public let url: URL
     
-    public init(id: Int, name: String, posterPath: String) {
+    public init(id: Int, name: String, url: URL) {
         self.id = id
         self.name = name
-        self.posterPath = posterPath
+        self.url = url
     }
 }
+public struct FeedMoviePage: Hashable {
+    public let index: Int
+    public let total: Int
+    public let feed: [FeedMovie]
 
-public struct MoviePage {
-    public let totalPages: Int
-    public let totalElements: Int
-    public let movies: [FeedMovie]
+    public init(index: Int, total: Int, feed: [FeedMovie]) {
+        self.index = index
+        self.total = total
+        self.feed = feed
+    }
 }

@@ -10,11 +10,13 @@ import MoviesFeed
 import MoviesFeediOS
 import Combine
 
-private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMovie>, FeedViewAdapter>
+private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter>
 
 class CompositionRoot {
+    let itemsPerPage = 20
+    
     private func adapter() -> FeedPresentationAdapter {
-        FeedPresentationAdapter(loader: self.makeRemoteLoadMoreLoader)
+        FeedPresentationAdapter(loader: self.makeRemoteFeedLoaderWithLocalFallback)
     }
     
     private let scheduler = DispatchQueue(label: "com.db.movie", qos: .userInitiated)
@@ -32,16 +34,11 @@ class CompositionRoot {
     
     func makeFeedView() -> MovieFeedView {
         let presenterAdapter = FeedPresentationAdapter(loader: { [unowned self] in
-            self.makeRemoteLoadMoreLoader()
+            self.makeRemoteFeedLoaderWithLocalFallback()
         })
         let viewModel = FeedMovieViewModel()
         presenterAdapter.presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
-                imageURL: { feedMovie in
-                    ImageEndpoint.get(
-                        feedMovie.posterPath
-                    ).url(baseURL: self.baseURL)
-                },
                 viewModel: viewModel,
                 imageLoader: self.makeLocalImageLoaderWithRemoteFallback,
                 selection: {_ in}),
@@ -56,11 +53,20 @@ class CompositionRoot {
         )
     }
     
-    func makeRemoteLoadMoreLoader(/*last: FeedMovie?*/) -> AnyPublisher<Paginated<FeedMovie>, Error> {
+    private func makeRemoteFeedLoaderWithLocalFallback() -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
+        makeRemoteFeedLoader(page: 1)
+            .receive(on: scheduler)
+            .caching(to: localFeedLoader)
+            .fallback(to: localFeedLoader.loadPublisher)
+            .map(makeFirstPage)
+            .eraseToAnyPublisher()
+    }
+    
+    func makeRemoteLoadMoreLoader(page: Int) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
         localFeedLoader.loadPublisher()
-            .zip(makeRemoteFeedLoader(after: nil))
-            .map { (cachedItems, newPage) in
-                (cachedItems + newPage.movies)
+            .zip(makeRemoteFeedLoader(page: page))
+            .map { (cachedPage, newPage) in
+                FeedMoviePage(index: newPage.index, total: newPage.total, feed: cachedPage.feed + newPage.feed)
             }
             .map(makePage)
             .receive(on: scheduler)
@@ -69,8 +75,8 @@ class CompositionRoot {
             .eraseToAnyPublisher()
     }
     
-    private func makeRemoteFeedLoader(after: FeedMovie? = nil) -> AnyPublisher<MoviePage, Error> {
-        let url = FeedEndpoint.get(after: after).url(baseURL: baseURL)
+    private func makeRemoteFeedLoader(page: Int) -> AnyPublisher<FeedMoviePage, Error> {
+        let url = FeedEndpoint.get(index: page).url(baseURL: baseURL)
         
         return httpClient
             .get(from: FeedRequest.makeAuthorizedRequest(url: url))
@@ -78,13 +84,13 @@ class CompositionRoot {
             .eraseToAnyPublisher()
     }
     
-    private func makeFirstPage(items: [FeedMovie]) -> Paginated<FeedMovie> {
-        makePage(items: items)
+    private func makeFirstPage(page: FeedMoviePage) -> Paginated<FeedMoviePage> {
+        makePage(page: page)
     }
     
-    private func makePage(items: [FeedMovie]) -> Paginated<FeedMovie> {
-        Paginated(items: items, loadMorePublisher: items.last.map { last in
-            { self.makeRemoteLoadMoreLoader(/*last: last*/) }
+    private func makePage(page: FeedMoviePage) -> Paginated<FeedMoviePage> {
+        Paginated(item: page, loadMorePublisher: { [unowned self] in
+            self.makeRemoteLoadMoreLoader(page: page.index + 1)
         })
     }
     

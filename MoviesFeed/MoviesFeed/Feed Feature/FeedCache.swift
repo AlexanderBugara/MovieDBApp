@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol FeedCache {
-    func save(_ feed: [FeedMovie]) throws
+    func save(_ page: FeedMoviePage) throws
 }

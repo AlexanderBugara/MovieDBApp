@@ -8,18 +8,18 @@
 import Foundation
 
 public enum FeedEndpoint {
-    case get(after: FeedMovie?)
+    case get(index: Int)
     
     public func url(baseURL: URL) -> URL {
         switch self {
-        case .get:
+        case let .get(index):
             var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)!
             components.scheme = baseURL.scheme
             components.host = baseURL.host
             components.path = baseURL.path + "/3/movie/now_playing"
             components.queryItems = [
                 URLQueryItem(name: "language", value: "en-US"),
-                URLQueryItem(name: "page", value: "1")
+                URLQueryItem(name: "page", value: "\(index)")
             ].compactMap { $0 }
             return components.url!
         }

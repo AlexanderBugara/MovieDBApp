@@ -28,8 +28,8 @@ public struct MovieFeedView: View {
     public var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(model.moviesFeedUIState.feed, id: \.id) { movie in
-                    MovieCell(model: movie)
+                ForEach(model.moviesFeedUIState.feed, id: \.id) { controller in
+                    controller.dataSource.cell()
                 }
             }
         }
@@ -47,16 +47,16 @@ public struct MovieFeedView: View {
     }
 }
 
-#Preview {
-    MovieFeedView(cell: { _ in
-        MovieCell(model: MoviePreviewModel(title: "movie preview model title 1"))
-    }, model: FeedMovieViewModel(state: MoviesFeedUIState(
-        feed: [
-            MoviePreviewModel(title: "movie preview model title 1"),
-            MoviePreviewModel(title: "movie preview model title 2"),
-            MoviePreviewModel(title: "movie preview model title 3"),
-            MoviePreviewModel(title: "movie preview model title 4")
-        ],
-        isLoading: false,
-        errorMessage: "message")), onRefresh: {})
-}
+//#Preview {
+//    MovieFeedView(cell: { _ in
+//        MovieCell(model: MoviePreviewModel(title: "movie preview model title 1"))
+//    }, model: FeedMovieViewModel(state: MoviesFeedUIState(
+//        feed: [
+//            MoviePreviewModel(title: "movie preview model title 1"),
+//            MoviePreviewModel(title: "movie preview model title 2"),
+//            MoviePreviewModel(title: "movie preview model title 3"),
+//            MoviePreviewModel(title: "movie preview model title 4")
+//        ],
+//        isLoading: false,
+//        errorMessage: "message")), onRefresh: {})
+//}

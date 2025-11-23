@@ -8,7 +8,7 @@
 import Foundation
 
 public class InMemoryFeedStore {
-    private var feedCache: [LocalFeedMovie]?
+    private var feedCache: LocalFeedPage?
     private var feedImageDataCache = NSCache<NSURL, NSData>()
     
     public init() {}
@@ -19,11 +19,11 @@ extension InMemoryFeedStore: FeedStore {
         feedCache = nil
     }
 
-    public func insert(_ feed: [LocalFeedMovie]) throws {
-        feedCache = feed
+    public func insert(_ page: LocalFeedPage) throws {
+        feedCache = page
     }
 
-    public func retrieve() throws -> [LocalFeedMovie]? {
+    public func retrieve() throws -> LocalFeedPage? {
         feedCache
     }
 }

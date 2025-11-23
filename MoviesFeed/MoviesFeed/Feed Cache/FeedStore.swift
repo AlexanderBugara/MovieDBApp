@@ -9,6 +9,6 @@ import Foundation
 
 public protocol FeedStore {
     func deleteCachedFeed() throws
-    func insert(_ feed: [LocalFeedMovie]) throws
-    func retrieve() throws -> [LocalFeedMovie]?
+    func insert(_ page: LocalFeedPage) throws
+    func retrieve() throws -> LocalFeedPage?
 }
