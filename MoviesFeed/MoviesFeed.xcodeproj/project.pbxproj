@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C87623E02ED36BB7007895EE /* MoviePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */; };
+		C87623E22ED36BCD007895EE /* LoadMoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87623E12ED36BCD007895EE /* LoadMoreViewModel.swift */; };
 		C8AE8F082ECCF7250043DA0A /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8F072ECCF7250043DA0A /* FeedLoader.swift */; };
 		C8AE8F562ECD035D0043DA0A /* MoviesFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8F552ECD035D0043DA0A /* MoviesFeedTests.swift */; };
 		C8AE8F5D2ECD03950043DA0A /* MoviesFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CA40B22ECBE87200259113 /* MoviesFeed.framework */; };
@@ -27,7 +29,6 @@
 		C8AE8FF72ECFA7150043DA0A /* MovieFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */; };
 		C8AE8FFD2ECFA92F0043DA0A /* MoviesFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CA40B22ECBE87200259113 /* MoviesFeed.framework */; platformFilter = ios; };
 		C8AE90022ECFB0B10043DA0A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90012ECFB0B10043DA0A /* MovieCell.swift */; };
-		C8AE90042ECFB2E30043DA0A /* MoviePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */; };
 		C8BAC94C2ECFBE0500285940 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC94B2ECFBE0500285940 /* Toast.swift */; };
 		C8BAC94E2ECFBE1900285940 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC94D2ECFBE1900285940 /* ToastModifier.swift */; };
 		C8BAC9502ECFBE4400285940 /* View+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC94F2ECFBE4400285940 /* View+Toast.swift */; };
@@ -98,6 +99,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C87623E12ED36BCD007895EE /* LoadMoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreViewModel.swift; sourceTree = "<group>"; };
 		C8AE8F072ECCF7250043DA0A /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		C8AE8F4C2ECD022E0043DA0A /* MoviesFeed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MoviesFeed.xctestplan; sourceTree = "<group>"; };
 		C8AE8F532ECD035D0043DA0A /* MoviesFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoviesFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,14 +295,6 @@
 			path = MoviesFeedAPIEndToEndTests;
 			sourceTree = "<group>";
 		};
-		C8AE8FFE2ECFA9960043DA0A /* Feed Presentation */ = {
-			isa = PBXGroup;
-			children = (
-				C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */,
-			);
-			path = "Feed Presentation";
-			sourceTree = "<group>";
-		};
 		C8BAC9602ED21CC500285940 /* Shared Presentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,8 +359,10 @@
 		C8BAC99E2ED3211000285940 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */,
 				C8BAC99F2ED3212D00285940 /* LoadMoreCell.swift */,
 				C8AE90012ECFB0B10043DA0A /* MovieCell.swift */,
+				C87623E12ED36BCD007895EE /* LoadMoreViewModel.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -401,7 +397,6 @@
 			isa = PBXGroup;
 			children = (
 				C8BAC9602ED21CC500285940 /* Shared Presentation */,
-				C8AE8FFE2ECFA9960043DA0A /* Feed Presentation */,
 				C8AE8FDB2ECD15A90043DA0A /* Feed API */,
 				C8BAC9732ED23BB500285940 /* Feed Cache */,
 				C8AE8FD42ECD135A0043DA0A /* Feed Feature */,
@@ -633,11 +628,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87623E22ED36BCD007895EE /* LoadMoreViewModel.swift in Sources */,
 				C8BAC9972ED3144C00285940 /* MoviesFeedUIState.swift in Sources */,
 				C8BAC9962ED313FE00285940 /* FeedMovieViewModel.swift in Sources */,
 				C8BAC9A02ED3212D00285940 /* LoadMoreCell.swift in Sources */,
 				C8BAC94E2ECFBE1900285940 /* ToastModifier.swift in Sources */,
 				C8BAC9502ECFBE4400285940 /* View+Toast.swift in Sources */,
+				C87623E02ED36BB7007895EE /* MoviePreviewModel.swift in Sources */,
 				C8AE90022ECFB0B10043DA0A /* MovieCell.swift in Sources */,
 				C8BAC9952ED3117200285940 /* CellController.swift in Sources */,
 				C8BAC99D2ED3170200285940 /* LoadMoreCellController.swift in Sources */,
@@ -680,7 +677,6 @@
 				C8BAC9772ED23C0200285940 /* FeedCache.swift in Sources */,
 				C8BAC97D2ED23E8300285940 /* LocalFeedMovie.swift in Sources */,
 				C8BAC9832ED2405500285940 /* FeedImageDataStore.swift in Sources */,
-				C8AE90042ECFB2E30043DA0A /* MoviePreviewModel.swift in Sources */,
 				C8BAC97B2ED23E3B00285940 /* FeedStore.swift in Sources */,
 				C8AE8FD02ECD0EF20043DA0A /* HTTPClient.swift in Sources */,
 				C8AE8FDD2ECD15C20043DA0A /* FeedItemsMapper.swift in Sources */,

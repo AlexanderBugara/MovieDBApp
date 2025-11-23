@@ -33,6 +33,7 @@ final class FeedViewAdapter: ResourceView {
         guard let viewModel = viewModel else { return }
         
         var currentFeed = self.currentFeed
+        
         let feed: [CellController] = page.item.feed.compactMap { [weak self] model in
             guard let self = self else {
                 return nil
@@ -48,13 +49,17 @@ final class FeedViewAdapter: ResourceView {
             let preview = MoviePreviewModel(title: model.name)
             let cellController = CellController(
                 id: model,
-                FeedMovieCellController(viewModel: preview))
+                FeedMovieCellController(
+                    viewModel: preview,
+                    delegate: adapter
+                )
+            )
             
-//            adapter.presenter = LoadResourcePresenter(
-//                resourceView: WeakRefVirtualProxy(preview),
-//                loadingView: WeakRefVirtualProxy(preview),
-//                errorView: WeakRefVirtualProxy(preview),
-//                mapper: Image.tryMake)
+            adapter.presenter = LoadResourcePresenter(
+                resourceView: WeakRefVirtualProxy(preview),
+                loadingView: WeakRefVirtualProxy(preview),
+                errorView: WeakRefVirtualProxy(preview),
+                mapper: Image.tryMake)
             
             currentFeed[model] = cellController
             return cellController
@@ -97,11 +102,20 @@ extension Image {
 }
 extension MoviePreviewModel: ResourceView {
     public typealias ResourceViewModel = Image
-    public func display(_ resourceModel: Image) {
-        
+    public func display(_ resourceModel: ResourceViewModel) {
+        uiState = .image(resourceModel)
     }
 }
-
+extension MoviePreviewModel: ResourceLoadingView {
+    public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
+        uiState = viewModel.isLoading ? .imageLoading : .idle
+    }
+}
+extension MoviePreviewModel: ResourceErrorView {
+    public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
+        uiState = .failed
+    }
+}
 extension FeedMovieViewModel: ResourceLoadingView {
     public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
         
@@ -113,3 +127,4 @@ extension FeedMovieViewModel: ResourceErrorView {
         
     }
 }
+

@@ -8,12 +8,12 @@
 import Foundation
 
 public struct LocalFeedMovie {
-    public let id: Int
+    public let movieId: Int
     public let name: String?
     public let url: URL
     
-    public init(id: Int, name: String?, url: URL) {
-        self.id = id
+    public init(movieId: Int, name: String?, url: URL) {
+        self.movieId = movieId
         self.name = name
         self.url = url
     }

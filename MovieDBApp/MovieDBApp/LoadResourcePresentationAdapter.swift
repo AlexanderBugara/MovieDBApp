@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import MoviesFeed
+import MoviesFeediOS
 
 final class LoadResourcePresentationAdapter<Resource, View: ResourceView> {
     private let loader: () -> AnyPublisher<Resource, Error>
@@ -44,5 +45,16 @@ final class LoadResourcePresentationAdapter<Resource, View: ResourceView> {
                 }, receiveValue: { [weak self] resource in
                     self?.presenter?.didFinishLoading(with: resource)
                 })
+    }
+}
+
+extension LoadResourcePresentationAdapter: FeedImageCellControllerDelegate {
+    func didRequestImage() {
+        loadResource()
+    }
+    
+    func didCancelImageRequest() {
+        cancellable?.cancel()
+        cancellable = nil
     }
 }

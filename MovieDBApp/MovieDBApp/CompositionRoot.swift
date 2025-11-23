@@ -23,6 +23,7 @@ class CompositionRoot {
     private lazy var store: FeedStore & FeedImageDataStore = InMemoryFeedStore()
     
     private lazy var baseURL = URL(string: "https://api.themoviedb.org")!
+    private lazy var baseImageURL = URL(string: "https://image.tmdb.org")!
     
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
@@ -46,11 +47,8 @@ class CompositionRoot {
             errorView: WeakRefVirtualProxy(viewModel))
                                                        
         return MovieFeedView(
-            cell: { movieVieModel in
-                MovieCell(model: movieVieModel)
-            }, model: viewModel,
-            onRefresh: presenterAdapter.loadResource
-        )
+            model: viewModel,
+            onRefresh: presenterAdapter.loadResource)
     }
     
     private func makeRemoteFeedLoaderWithLocalFallback() -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
@@ -80,6 +78,9 @@ class CompositionRoot {
         
         return httpClient
             .get(from: FeedRequest.makeAuthorizedRequest(url: url))
+            .map { [unowned self] result in
+                (result.0, result.1, self.baseImageURL)
+            }
             .tryMap(FeedItemsMapper.map)
             .eraseToAnyPublisher()
     }

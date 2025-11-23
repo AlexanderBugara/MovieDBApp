@@ -13,7 +13,7 @@ public enum ImageEndpoint {
     public func url(baseURL: URL) -> URL {
         switch self {
         case let .get(id):
-            return baseURL.appendingPathComponent("/\(id)")
+            return baseURL.appendingPathComponent("/t/p/w200\(id)")
         }
     }
 }

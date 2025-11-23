@@ -28,14 +28,7 @@ public final class FeedItemsMapper {
             }
         }
         
-        func page(url: URL?) -> FeedMoviePage {
-            guard
-                let url = url,
-                let scheme = url.scheme,
-                let host = url.host,
-                let baseURL = URL(string: "\(scheme)://\(host)") else {
-                return FeedMoviePage(index: page, total: total_pages, feed: [])
-            }
+        func page(url: URL) -> FeedMoviePage {
             
             let movies = results.compactMap { result -> FeedMovie? in
                 guard
@@ -45,11 +38,11 @@ public final class FeedItemsMapper {
                 }
 
                 return FeedMovie(
-                    id: result.id,
+                    movieId: result.id,
                     name: result.title,
                     url: ImageEndpoint
                         .get(poster)
-                        .url(baseURL: baseURL)
+                        .url(baseURL: url)
                 )
             }
             return FeedMoviePage(index: page, total: total_pages, feed: movies)
@@ -60,11 +53,11 @@ public final class FeedItemsMapper {
         case invalidData
     }
     
-    public static func map(_ data: Data, from response: HTTPURLResponse) throws -> FeedMoviePage {
+    public static func map(_ data: Data, from response: HTTPURLResponse,  baseImageURL: URL) throws -> FeedMoviePage {
         guard response.isOK, let root = try? JSONDecoder().decode(Root.self, from: data) else {
             throw Error.invalidData
         }
-        let page = root.page(url: response.url)
+        let page = root.page(url: baseImageURL)
         print(">>>>> page == \(page.index) total: \(page.total) feed: \(page.feed.count)")
         return page
     }

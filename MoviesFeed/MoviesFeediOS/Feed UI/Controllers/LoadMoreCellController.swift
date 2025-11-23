@@ -8,18 +8,6 @@
 import SwiftUI
 import MoviesFeed
 
-public final class LoadMoreViewModel: ObservableObject {
-    public enum UIState: Equatable {
-        case loading
-        case errorMessage(String)
-        case idle
-    }
-    @Published public var state: UIState
-    public init(state: UIState = .idle) {
-        self.state = state
-    }
-}
-
 public class LoadMoreCellController: CellDataSource {
     let id = UUID()
     private let cellViewModel: LoadMoreViewModel

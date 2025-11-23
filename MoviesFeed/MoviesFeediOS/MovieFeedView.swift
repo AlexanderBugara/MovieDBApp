@@ -12,15 +12,12 @@ import MoviesFeed
 public struct MovieFeedView: View {
     @ObservedObject var model: FeedMovieViewModel
     @State private var toast: Toast?
-    let cell: (MoviePreviewModel) -> MovieCell
     public var onRefresh: (() -> Void)?
     
     public init(
-        cell: @escaping (MoviePreviewModel) -> MovieCell,
         model: FeedMovieViewModel,
         onRefresh: (() -> Void)?
     ) {
-        self.cell = cell
         self.onRefresh = onRefresh
         self.model = model
     }

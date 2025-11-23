@@ -34,7 +34,7 @@ extension LocalFeedLoader {
 private extension Array where Element == FeedMovie {
     func toLocal() -> [LocalFeedMovie] {
         return map { 
-            LocalFeedMovie(id: $0.id, name: $0.name, url: $0.url)
+            LocalFeedMovie(movieId: $0.movieId, name: $0.name, url: $0.url)
         }
     }
 }
@@ -42,7 +42,7 @@ private extension Array where Element == FeedMovie {
 private extension Array where Element == LocalFeedMovie {
     func toModels() -> [FeedMovie] {
         return map {
-            return FeedMovie(id: $0.id, name: $0.name ?? "", url: $0.url)
+            return FeedMovie(movieId: $0.movieId, name: $0.name ?? "", url: $0.url)
         }
     }
 }
