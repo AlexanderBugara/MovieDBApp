@@ -11,8 +11,8 @@ import MoviesFeed
 public class LoadMoreCellController: CellDataSource {
     let id = UUID()
     private let cellViewModel: LoadMoreViewModel
-    private let callback: () -> Void
-    public init(cellViewModel: LoadMoreViewModel, callback: @escaping () -> Void) {
+    private let callback: (Void?) -> Void
+    public init(cellViewModel: LoadMoreViewModel, callback: @escaping (Void?) -> Void) {
         self.cellViewModel = cellViewModel
         self.callback = callback
     }
@@ -27,7 +27,7 @@ public class LoadMoreCellController: CellDataSource {
                 if cellViewModel.state == .loading {
                     return
                 }
-                self.callback()
+                self.callback(())
             })
         )
     }

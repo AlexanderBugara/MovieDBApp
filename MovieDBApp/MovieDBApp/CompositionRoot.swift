@@ -10,7 +10,7 @@ import MoviesFeed
 import MoviesFeediOS
 import Combine
 
-private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter>
+private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter, Void>
 
 class CompositionRoot {
     let itemsPerPage = 20
@@ -34,8 +34,8 @@ class CompositionRoot {
     }()
     
     func makeFeedView() -> MovieFeedView {
-        let presenterAdapter = FeedPresentationAdapter(loader: { [unowned self] in
-            self.makeRemoteFeedLoaderWithLocalFallback()
+        let presenterAdapter = FeedPresentationAdapter(loader: { _  in
+            self.makeRemoteFeedLoaderWithLocalFallback(())
         })
         let viewModel = FeedMovieViewModel()
         presenterAdapter.presenter = LoadResourcePresenter(
@@ -48,10 +48,11 @@ class CompositionRoot {
                                                        
         return MovieFeedView(
             model: viewModel,
-            onRefresh: presenterAdapter.loadResource)
+            onRefresh: presenterAdapter.loadResource,
+            onPerformSearch: {_ in })
     }
     
-    private func makeRemoteFeedLoaderWithLocalFallback() -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
+    private func makeRemoteFeedLoaderWithLocalFallback(_ void: Void?) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
         makeRemoteFeedLoader(page: 1)
             .receive(on: scheduler)
             .caching(to: localFeedLoader)
@@ -90,7 +91,7 @@ class CompositionRoot {
     }
     
     private func makePage(page: FeedMoviePage) -> Paginated<FeedMoviePage> {
-        Paginated(item: page, loadMorePublisher: { [unowned self] in
+        Paginated(item: page, loadMorePublisher: { [unowned self] _ in
             self.makeRemoteLoadMoreLoader(page: page.index + 1)
         })
     }

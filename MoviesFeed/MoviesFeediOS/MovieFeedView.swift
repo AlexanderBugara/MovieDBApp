@@ -12,17 +12,29 @@ import MoviesFeed
 public struct MovieFeedView: View {
     @ObservedObject var model: FeedMovieViewModel
     @State private var toast: Toast?
-    public var onRefresh: (() -> Void)?
+    @State var query: String = ""
+    public var onRefresh: ((Void?) -> Void)?
+    public var onPerformSearch: ((String) -> Void)?
     
     public init(
         model: FeedMovieViewModel,
-        onRefresh: (() -> Void)?
+        onRefresh: ((Void?) -> Void)?,
+        onPerformSearch: ((String) -> Void)?
     ) {
         self.onRefresh = onRefresh
         self.model = model
+        self.onPerformSearch = onPerformSearch
     }
     
     public var body: some View {
+        TextField("Search movies...", text: $query)
+            .padding()
+            .textFieldStyle(.roundedBorder)
+            .task(id: query) {
+                try? await Task.sleep(for: .milliseconds(350))
+                onPerformSearch?(query)
+            }
+        
         ScrollView {
             LazyVStack {
                 ForEach(model.moviesFeedUIState.feed, id: \.id) { controller in
@@ -39,7 +51,7 @@ public struct MovieFeedView: View {
         }
         .padding()
         .task {
-            onRefresh?()
+            onRefresh?(())
         }
     }
 }

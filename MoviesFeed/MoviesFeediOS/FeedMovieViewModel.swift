@@ -7,20 +7,20 @@
 
 import Foundation
 import MoviesFeed
+import Combine
 
 public class FeedMovieViewModel: ObservableObject {
     @Published public var moviesFeedUIState: MoviesFeedUIState
+    
+    
     
     public init(state: MoviesFeedUIState = MoviesFeedUIState(
         feed: [],
         isLoading: false,
         errorMessage: nil)) {
             self.moviesFeedUIState = state
+            
         }
-    
-    func load() {
-        
-    }
     
     public func display(_ controllers: [CellController]) {
         moviesFeedUIState = MoviesFeedUIState(

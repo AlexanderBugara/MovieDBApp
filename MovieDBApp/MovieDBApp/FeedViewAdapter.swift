@@ -15,9 +15,9 @@ final class FeedViewAdapter: ResourceView {
     private let selection: (FeedMovie) -> Void
     private let currentFeed: [FeedMovie: CellController]
     
-    private typealias ImageDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<MoviePreviewModel>>
+    private typealias ImageDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<MoviePreviewModel>, Void>
     
-    private typealias LoadMorePresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter>
+    private typealias LoadMorePresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter, Void>
     
     init(currentFeed: [FeedMovie: CellController] = [:],
          viewModel: FeedMovieViewModel,
@@ -42,7 +42,7 @@ final class FeedViewAdapter: ResourceView {
                 return preview
             }
             
-            let adapter = ImageDataPresentationAdapter(loader: { [imageLoader] in
+            let adapter = ImageDataPresentationAdapter(loader: { [imageLoader] _ in
                 imageLoader(model.url)
             })
             
