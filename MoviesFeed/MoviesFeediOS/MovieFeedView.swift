@@ -11,7 +11,6 @@ import MoviesFeed
 
 public struct MovieFeedView: View {
     @ObservedObject var model: FeedMovieViewModel
-    @State private var toast: Toast?
     @State var query: String = ""
 
     @State private var hasAppeared = false
@@ -22,7 +21,7 @@ public struct MovieFeedView: View {
     
     public var body: some View {
         TextField("Search movies...", text: $query)
-            .padding()
+            .padding(.horizontal)
             .textFieldStyle(.roundedBorder)
             .task(id: query) {
                 if !hasAppeared {
@@ -43,13 +42,6 @@ public struct MovieFeedView: View {
                     controller.dataSource.cell()
                 }
             }
-        }
-        .toast($toast)
-        .onChange(of: model.moviesFeedUIState) { _, uiState in
-            guard let errorMessage = uiState.errorMessage else {
-                return
-            }
-            toast = Toast(message: errorMessage)
         }
         .padding()
         .task {

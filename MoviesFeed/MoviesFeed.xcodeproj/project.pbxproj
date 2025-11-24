@@ -31,9 +31,6 @@
 		C8AE8FF72ECFA7150043DA0A /* MovieFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */; };
 		C8AE8FFD2ECFA92F0043DA0A /* MoviesFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8CA40B22ECBE87200259113 /* MoviesFeed.framework */; platformFilter = ios; };
 		C8AE90022ECFB0B10043DA0A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90012ECFB0B10043DA0A /* MovieCell.swift */; };
-		C8BAC94C2ECFBE0500285940 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC94B2ECFBE0500285940 /* Toast.swift */; };
-		C8BAC94E2ECFBE1900285940 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC94D2ECFBE1900285940 /* ToastModifier.swift */; };
-		C8BAC9502ECFBE4400285940 /* View+Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC94F2ECFBE4400285940 /* View+Toast.swift */; };
 		C8BAC9622ED21CEC00285940 /* LoadResourcePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC9612ED21CEC00285940 /* LoadResourcePresenter.swift */; };
 		C8BAC9642ED21D1100285940 /* ResourceLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC9632ED21D1100285940 /* ResourceLoadingView.swift */; };
 		C8BAC9662ED21D2A00285940 /* ResourceLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BAC9652ED21D2A00285940 /* ResourceLoadingViewModel.swift */; };
@@ -126,9 +123,6 @@
 		C8AE8FFF2ECFAA860043DA0A /* MoviesFeedUIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesFeedUIState.swift; sourceTree = "<group>"; };
 		C8AE90012ECFB0B10043DA0A /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePreviewModel.swift; sourceTree = "<group>"; };
-		C8BAC94B2ECFBE0500285940 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		C8BAC94D2ECFBE1900285940 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
-		C8BAC94F2ECFBE4400285940 /* View+Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Toast.swift"; sourceTree = "<group>"; };
 		C8BAC9552ED200BD00285940 /* FeedMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMovieViewModel.swift; sourceTree = "<group>"; };
 		C8BAC9612ED21CEC00285940 /* LoadResourcePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadResourcePresenter.swift; sourceTree = "<group>"; };
 		C8BAC9632ED21D1100285940 /* ResourceLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLoadingView.swift; sourceTree = "<group>"; };
@@ -219,9 +213,6 @@
 				C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */,
 				C8BAC9552ED200BD00285940 /* FeedMovieViewModel.swift */,
 				C8AE8FFF2ECFAA860043DA0A /* MoviesFeedUIState.swift */,
-				C8BAC94B2ECFBE0500285940 /* Toast.swift */,
-				C8BAC94D2ECFBE1900285940 /* ToastModifier.swift */,
-				C8BAC94F2ECFBE4400285940 /* View+Toast.swift */,
 				C8BAC9942ED3117200285940 /* CellController.swift */,
 			);
 			path = MoviesFeediOS;
@@ -638,14 +629,11 @@
 				C8BAC9972ED3144C00285940 /* MoviesFeedUIState.swift in Sources */,
 				C8BAC9962ED313FE00285940 /* FeedMovieViewModel.swift in Sources */,
 				C8BAC9A02ED3212D00285940 /* LoadMoreCell.swift in Sources */,
-				C8BAC94E2ECFBE1900285940 /* ToastModifier.swift in Sources */,
-				C8BAC9502ECFBE4400285940 /* View+Toast.swift in Sources */,
 				C87623E02ED36BB7007895EE /* MoviePreviewModel.swift in Sources */,
 				C8AE90022ECFB0B10043DA0A /* MovieCell.swift in Sources */,
 				C8BAC9952ED3117200285940 /* CellController.swift in Sources */,
 				C8BAC99D2ED3170200285940 /* LoadMoreCellController.swift in Sources */,
 				C8BAC99B2ED3159200285940 /* FeedMovieCellController.swift in Sources */,
-				C8BAC94C2ECFBE0500285940 /* Toast.swift in Sources */,
 				C8AE8FF72ECFA7150043DA0A /* MovieFeedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
