@@ -85,8 +85,11 @@ final class FeedViewAdapter: ResourceView {
             ),
             loadingView: WeakRefVirtualProxy(loadMoreViewModel),
             errorView: WeakRefVirtualProxy(loadMoreViewModel))
-        
-        viewModel.display(feed + [CellController(id: UUID(), loadMore)])
+        if page.havingMore() {
+            viewModel.display(feed + [CellController(id: UUID(), loadMore)])
+        } else {
+            viewModel.display(feed)
+        }
     }
 }
 
@@ -118,13 +121,24 @@ extension MoviePreviewModel: ResourceErrorView {
 }
 extension FeedMovieViewModel: ResourceLoadingView {
     public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
-        
+        self.moviesFeedUIState = .init(
+            feed: [],
+            isLoading: false, 
+            errorMessage: nil)
     }
 }
 
 extension FeedMovieViewModel: ResourceErrorView {
     public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
-        
+        self.moviesFeedUIState = .init(
+            feed: [],
+            isLoading: false,
+            errorMessage: viewModel.message)
     }
 }
 
+extension Paginated where Item == FeedMoviePage {
+    func havingMore() -> Bool {
+        item.index < item.total
+    }
+}
