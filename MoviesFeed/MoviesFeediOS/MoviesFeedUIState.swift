@@ -19,3 +19,8 @@ public struct MoviesFeedUIState: Equatable {
         self.errorMessage = errorMessage
     }
 }
+extension MoviesFeedUIState {
+    public static var empty: MoviesFeedUIState {
+        MoviesFeedUIState(feed: [], isLoading: false, errorMessage: nil)
+    }
+}

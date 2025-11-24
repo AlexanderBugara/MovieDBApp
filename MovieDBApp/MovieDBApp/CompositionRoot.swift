@@ -44,7 +44,14 @@ class CompositionRoot {
         let presenterAdapter = FeedPresentationAdapter(loader: {_ in
             self.makeRemoteFeedLoaderWithLocalFallback(())
         })
-        let viewModel = FeedMovieViewModel()
+        let searchAdapter = FeedSearchPresentationAdapter(loader: { query in
+            self.makeRemoteSearchLoader(query: query)
+        })
+        
+        let viewModel = FeedMovieViewModel(
+            onRefresh: presenterAdapter.loadResource,
+            onPerformSearch: searchAdapter.loadResource)
+        
         let presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
                 viewModel: viewModel,
@@ -52,17 +59,11 @@ class CompositionRoot {
                 selection: {_ in}),
             loadingView: WeakRefVirtualProxy(viewModel),
             errorView: WeakRefVirtualProxy(viewModel))
+        
         presenterAdapter.presenter = presenter
-
-        let searchAdapter = FeedSearchPresentationAdapter(loader: { query in
-            self.makeRemoteSearchLoader(query: query)
-        })
         searchAdapter.presenter = presenter
         
-        return MovieFeedView(
-            model: viewModel,
-            onRefresh: presenterAdapter.loadResource,
-            onPerformSearch: searchAdapter.loadResource)
+        return MovieFeedView(model: viewModel)
     }
     
     private func makeRemoteFeedLoaderWithLocalFallback(_ void: Void?) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {

@@ -13,18 +13,11 @@ public struct MovieFeedView: View {
     @ObservedObject var model: FeedMovieViewModel
     @State private var toast: Toast?
     @State var query: String = ""
-    public var onRefresh: ((Void?) -> Void)?
-    public var onPerformSearch: ((Query) -> Void)?
+
     @State private var hasAppeared = false
     
-    public init(
-        model: FeedMovieViewModel,
-        onRefresh: ((Void?) -> Void)?,
-        onPerformSearch: ((Query) -> Void)?
-    ) {
-        self.onRefresh = onRefresh
+    public init(model: FeedMovieViewModel) {
         self.model = model
-        self.onPerformSearch = onPerformSearch
     }
     
     public var body: some View {
@@ -38,10 +31,10 @@ public struct MovieFeedView: View {
                 }
                 try? await Task.sleep(for: .milliseconds(350))
                 guard !query.isEmpty else {
-                    onRefresh?(())
+                    model.loadFeed()
                     return
                 }
-                onPerformSearch?(Query(page: 1, text: query))
+                model.search(text: query)
             }
         
         ScrollView {
@@ -60,7 +53,7 @@ public struct MovieFeedView: View {
         }
         .padding()
         .task {
-            onRefresh?(())
+            model.loadFeed()
         }
     }
 }

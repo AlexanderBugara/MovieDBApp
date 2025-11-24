@@ -68,14 +68,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C87623EB2ED3D598007895EE /* CompositionRoot */ = {
-			isa = PBXGroup;
-			children = (
-				C8BAC9842ED2522200285940 /* CompositionRoot.swift */,
-			);
-			path = CompositionRoot;
-			sourceTree = "<group>";
-		};
 		C8AE8F142ECCFD500043DA0A = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +101,7 @@
 				C8AE8FA42ECD07770043DA0A /* Assets.xcassets */,
 				C8AE8FA52ECD07770043DA0A /* Preview Content */,
 				C8AE8FA72ECD07770043DA0A /* MovieDBAppApp.swift */,
+				C8BAC9842ED2522200285940 /* CompositionRoot.swift */,
 				C8BAC95E2ED21C9300285940 /* LoadResourcePresentationAdapter.swift */,
 				C8BAC96B2ED21DEA00285940 /* CombineHelpers.swift */,
 				C8BAC96D2ED21EEC00285940 /* FeedViewAdapter.swift */,
@@ -120,7 +113,6 @@
 		C8AE8FA52ECD07770043DA0A /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				C87623EB2ED3D598007895EE /* CompositionRoot */,
 				C8AE8FA62ECD07770043DA0A /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
