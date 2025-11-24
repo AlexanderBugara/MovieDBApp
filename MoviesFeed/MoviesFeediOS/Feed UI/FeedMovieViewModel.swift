@@ -11,8 +11,9 @@ import Combine
 
 public class FeedMovieViewModel: ObservableObject {
     @Published public var moviesFeedUIState: MoviesFeedUIState
-    public var onRefresh: ((Void?) -> Void)?
-    public var onPerformSearch: ((Query) -> Void)?
+    private(set) public var onAppear: ((Void?) -> Void)?
+    private(set) public var onRefresh: ((Void?) -> Void)?
+    private(set) public var onPerformSearch: ((Query) -> Void)?
     
     public init(state: MoviesFeedUIState = MoviesFeedUIState.empty,
                 onRefresh: ((Void?) -> Void)?,
@@ -20,6 +21,7 @@ public class FeedMovieViewModel: ObservableObject {
         self.moviesFeedUIState = state
         self.onPerformSearch = onPerformSearch
         self.onRefresh = onRefresh
+        self.onAppear = onRefresh
     }
     
     public func display(_ controllers: [CellController]) {
@@ -33,7 +35,12 @@ public class FeedMovieViewModel: ObservableObject {
         onPerformSearch?(Query(page: 1, text: text))
     }
     
-    func loadFeed() {
+    func appear() {
+        onAppear?(())
+        onAppear = nil
+    }
+    
+    func refresh() {
         onRefresh?(())
     }
 }

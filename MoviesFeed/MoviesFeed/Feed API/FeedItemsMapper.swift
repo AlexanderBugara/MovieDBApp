@@ -58,7 +58,6 @@ public final class FeedItemsMapper {
             throw Error.invalidData
         }
         let page = root.page(url: baseImageURL)
-        print(">>>>> page == \(page.index) total: \(page.total) feed: \(page.feed.count)")
         return page
     }
 }

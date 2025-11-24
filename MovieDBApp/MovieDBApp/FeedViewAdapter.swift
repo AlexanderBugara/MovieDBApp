@@ -47,10 +47,12 @@ final class FeedViewAdapter: ResourceView {
             })
             
             let preview = MoviePreviewModel(title: model.name)
+            
             let cellController = CellController(
                 id: model,
                 FeedMovieCellController(
                     viewModel: preview,
+                    dto: model,
                     delegate: adapter
                 )
             )

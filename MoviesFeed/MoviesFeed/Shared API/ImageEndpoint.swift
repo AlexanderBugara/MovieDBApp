@@ -8,12 +8,16 @@
 import Foundation
 
 public enum ImageEndpoint {
+    public enum Size: String {
+        case w500
+        case w200
+    }
     case get(String)
 
-    public func url(baseURL: URL) -> URL {
+    public func url(baseURL: URL, size: Size = .w200) -> URL {
         switch self {
         case let .get(id):
-            return baseURL.appendingPathComponent("/t/p/w200\(id)")
+            return baseURL.appendingPathComponent("/t/p/\(size.rawValue)\(id)")
         }
     }
 }

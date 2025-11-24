@@ -14,6 +14,8 @@ private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<Pagi
 
 private typealias FeedSearchPresentationAdapter = LoadResourcePresentationAdapter<Paginated<FeedMoviePage>, FeedViewAdapter, Query>
 
+private typealias DetailsPresentationAdapter = LoadResourcePresentationAdapter<MovieDetail, MovieDetailAdapter, Int>
+
 class CompositionRoot {
     let itemsPerPage = 20
     
@@ -64,6 +66,51 @@ class CompositionRoot {
         searchAdapter.presenter = presenter
         
         return MovieFeedView(model: viewModel)
+    }
+    
+    func makeDetailsView(feedModel: FeedMovie) -> MovieDetailView {
+        let presenterAdapter = DetailsPresentationAdapter(loader: { movieId in
+            self.makeRemoteDetailLoader(movieId: movieId)
+        })
+        
+        let viewModel = MovieDetailViewViewModel(
+            feedMovie: feedModel,
+            onAppear: presenterAdapter.loadResource)
+        
+        let presenter = LoadResourcePresenter(
+            resourceView: MovieDetailAdapter(
+                viewModel: viewModel,
+                imageLoader: self.makeLocalImageLoaderWithRemote),
+            loadingView: WeakRefVirtualProxy(viewModel),
+            errorView: WeakRefVirtualProxy(viewModel))
+        
+        presenterAdapter.presenter = presenter
+        
+        return MovieDetailView(model: viewModel)
+    }
+    
+    private func makeRemoteDetailLoader(movieId: Int?) -> AnyPublisher<MovieDetail, Error> {
+        let url = MovieDetailsEndpoint
+            .get(id: movieId ?? -1)
+            .url(baseURL: baseURL)
+        
+        return httpClient
+            .get(from: FeedRequest.makeAuthorizedRequest(url: url))
+            .tryMap { data, response in 
+               try MovieDetailMapper.map(
+                data,
+                from: response,
+                baseImageURL: self.baseImageURL) }
+            .receive(on: scheduler)
+            .eraseToAnyPublisher()
+    }
+    
+    private func makeLocalImageLoaderWithRemote(url: URL) -> FeedImageDataLoader.Publisher {
+        return  httpClient
+            .get(from: FeedRequest.makeAuthorizedRequest(url: url))
+            .tryMap(FeedMovieDataMapper.map)
+            .receive(on: scheduler)
+            .eraseToAnyPublisher()
     }
     
     private func makeRemoteFeedLoaderWithLocalFallback(_ void: Void?) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {

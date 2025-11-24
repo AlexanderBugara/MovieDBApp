@@ -16,7 +16,13 @@ struct MovieDBAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            compositionRoot.makeFeedView()
+            NavigationStack {
+                compositionRoot.makeFeedView()
+                    .navigationDestination(for: FeedMovie.self) {
+                        movie in
+                        compositionRoot.makeDetailsView(feedModel: movie)
+                    }
+            }
         }
     }
 }

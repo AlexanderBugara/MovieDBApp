@@ -8,7 +8,7 @@
 import XCTest
 import Combine
 import MoviesFeed
-
+import MoviesFeediOS
 final class MoviesFeedAPIEndToEndTests: XCTestCase {
     var cancellable: AnyCancellable?
     
@@ -24,8 +24,8 @@ final class MoviesFeedAPIEndToEndTests: XCTestCase {
                     expectation.fulfill()
                 },
                 receiveValue: { page in
-                    XCTAssertFalse(page.movies.isEmpty, "Feed should not be empty")
-                    XCTAssertEqual(page.movies.count, 20, "Expected 20 movies in the feed")
+                    XCTAssertFalse(page.feed.isEmpty, "Feed should not be empty")
+                    XCTAssertEqual(page.feed.count, 20, "Expected 20 movies in the feed")
                 }
             )
         
@@ -37,10 +37,11 @@ final class MoviesFeedAPIEndToEndTests: XCTestCase {
     }
     
     
-    private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> AnyPublisher<MoviePage, Error> {
+    private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> AnyPublisher<FeedMoviePage, Error> {
         ephemeralClient()
             .get(from: FeedRequest.makeAuthorizedRequest(url: feedTestServerURL))
-            .tryMap(FeedItemsMapper.map)
+            .tryMap { data, response in
+                try FeedItemsMapper.map(data, from: response, baseImageURL: URL(string: "http://any.com")!) }
             .eraseToAnyPublisher()
     }
     

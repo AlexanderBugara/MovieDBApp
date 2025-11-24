@@ -16,17 +16,27 @@ public protocol FeedImageCellControllerDelegate {
 public struct FeedMovieCellController: CellDataSource {
     let id = UUID()
     private let viewModel: MoviePreviewModel
+    private let dto: FeedMovie
     private let delegate: FeedImageCellControllerDelegate
-    public init(viewModel: MoviePreviewModel, delegate: FeedImageCellControllerDelegate) {
+    public init(
+        viewModel: MoviePreviewModel,
+        dto: FeedMovie, 
+        delegate: FeedImageCellControllerDelegate) {
         self.viewModel = viewModel
+        self.dto = dto
         self.delegate = delegate
     }
     
     public func cell() -> AnyView {
-        AnyView(MovieCell(model: viewModel, onAppear: {
-            delegate.didRequestImage()
-        }, onDissapear: {
-            delegate.didCancelImageRequest()
-        }))
+        AnyView(
+            NavigationLink(value: dto) {
+                MovieCell(model: viewModel, onAppear: {
+                    delegate.didRequestImage()
+                }, onDissapear: {
+                    delegate.didCancelImageRequest()
+                })
+                .foregroundColor(.primary)
+                .tint(.primary)
+            })
     }
 }

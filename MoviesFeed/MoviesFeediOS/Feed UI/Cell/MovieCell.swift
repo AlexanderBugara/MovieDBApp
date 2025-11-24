@@ -30,6 +30,7 @@ public struct MovieCell: View {
                     .resizable()
                     .scaledToFill()
                     .frame(width: 70, height: 70)
+                    .cornerRadius(8)
                     .clipped()
             case .imageLoading:
                 ProgressView()
@@ -62,7 +63,13 @@ public struct MovieCell: View {
                 .frame(width: 40, height: 40)
             }
             Text(model.title)
+                .font(.title3)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
+            Image(systemName: "chevron.right")
+                .foregroundColor(.gray)
+                .padding(.horizontal)
         }.onAppear {
             onAppear()
         }.onDisappear {
