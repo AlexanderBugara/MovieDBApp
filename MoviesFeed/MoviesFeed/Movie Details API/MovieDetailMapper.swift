@@ -14,7 +14,7 @@ public final class MovieDetailMapper {
         public let overview: String?
         public let releaseDate: String?
         public let voteAverage: Double?
-        public let posterPath: String?
+        public let posterPath: String
         
         enum CodingKeys: String, CodingKey {
             case id
@@ -34,19 +34,14 @@ public final class MovieDetailMapper {
         guard response.isOK, let detail = try? JSONDecoder().decode(RemoteMovieDetail.self, from: data) else {
             throw Error.invalidData
         }
-        var url: URL?
-        if let posterPath = detail.posterPath {
-            url = ImageEndpoint
-                .get(posterPath)
-                .url(baseURL: baseImageURL, size: .w500)
-        }
-        
         return MovieDetail(
             id: detail.id,
             title: detail.title,
             overview: detail.overview,
             releaseDate: detail.releaseDate,
             voteAverage: detail.voteAverage,
-            url: url)
+            url: ImageEndpoint
+                .get(detail.posterPath)
+                .url(baseURL: baseImageURL, size: .w500))
     }
 }

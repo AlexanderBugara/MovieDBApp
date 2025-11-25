@@ -13,5 +13,5 @@ public struct MovieDetail {
     public let overview: String?
     public let releaseDate: String?
     public let voteAverage: Double?
-    public let url: URL?
+    public let url: URL
 }

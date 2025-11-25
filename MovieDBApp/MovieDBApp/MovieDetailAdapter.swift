@@ -28,7 +28,7 @@ final class MovieDetailAdapter: ResourceView {
         guard let viewModel = viewModel else { return }
         
         let adapter = ImageDataPresentationAdapter(loader: { [imageLoader] _ in
-            imageLoader(detail.url ?? URL(string: "http://google.com")!)
+            imageLoader(detail.url)
         })
         
         let detailViewModel = MovieDetailViewModel(

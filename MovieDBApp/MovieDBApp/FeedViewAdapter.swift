@@ -8,6 +8,7 @@
 import SwiftUI
 import MoviesFeed
 import MoviesFeediOS
+import Combine
 
 final class FeedViewAdapter: ResourceView {
     private weak var viewModel: FeedMovieViewModel?

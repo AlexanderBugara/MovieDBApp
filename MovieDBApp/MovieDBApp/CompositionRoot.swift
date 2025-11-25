@@ -159,7 +159,6 @@ class CompositionRoot {
     
     private func makeLocalImageLoaderWithRemoteFallback(url: URL) -> FeedImageDataLoader.Publisher {
         let localImageLoader = LocalFeedImageDataLoader(store: store)
-        
         return localImageLoader
             .loadImageDataPublisher(from: url)
             .fallback(to: { [httpClient, scheduler] in
