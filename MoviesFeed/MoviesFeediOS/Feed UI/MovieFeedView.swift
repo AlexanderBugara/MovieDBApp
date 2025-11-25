@@ -14,6 +14,7 @@ public struct MovieFeedView: View {
     @State var query: String = ""
     @State private var previousQuery: String = ""
     @State private var hasAppeared = false
+    @StateObject private var errorViewModel = ErrorViewModel()
     
     public init(model: FeedMovieViewModel) {
         self.model = model
@@ -63,6 +64,12 @@ public struct MovieFeedView: View {
             }
         }
         .padding()
+        .onChange(of: model.moviesFeedUIState, { oldValue, newValue in
+            errorViewModel.showError(newValue.errorMessage)
+        })
+        .bottomError(message: errorViewModel.errorMessage) {
+            errorViewModel.dismiss()
+        }
         .task {
             model.appear()
         }
@@ -72,16 +79,3 @@ public struct MovieFeedView: View {
     }
 }
 
-//#Preview {
-//    MovieFeedView(cell: { _ in
-//        MovieCell(model: MoviePreviewModel(title: "movie preview model title 1"))
-//    }, model: FeedMovieViewModel(state: MoviesFeedUIState(
-//        feed: [
-//            MoviePreviewModel(title: "movie preview model title 1"),
-//            MoviePreviewModel(title: "movie preview model title 2"),
-//            MoviePreviewModel(title: "movie preview model title 3"),
-//            MoviePreviewModel(title: "movie preview model title 4")
-//        ],
-//        isLoading: false,
-//        errorMessage: "message")), onRefresh: {})
-//}

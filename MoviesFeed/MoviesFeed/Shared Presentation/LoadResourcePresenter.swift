@@ -57,7 +57,7 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
     }
     
     public func didFinishLoading(with error: Error) {
-        errorView.display(.error(message: Self.loadError))
         loadingView.display(ResourceLoadingViewModel(isLoading: false))
+        errorView.display(.error(message: Self.loadError))
     }
 }

@@ -13,7 +13,6 @@ import Combine
 final class FeedViewAdapter: ResourceView {
     private weak var viewModel: FeedMovieViewModel?
     private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
-    private let selection: (FeedMovie) -> Void
     private let currentFeed: [FeedMovie: CellController]
     
     private typealias ImageDataPresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<MoviePreviewModel>, Void>
@@ -22,12 +21,10 @@ final class FeedViewAdapter: ResourceView {
     
     init(currentFeed: [FeedMovie: CellController] = [:],
          viewModel: FeedMovieViewModel,
-         imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher,
-         selection: @escaping (FeedMovie) -> Void) {
+         imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
         self.currentFeed = currentFeed
         self.viewModel = viewModel
         self.imageLoader = imageLoader
-        self.selection = selection
     }
     
     func display(_ page: Paginated<FeedMoviePage>) {
@@ -83,11 +80,11 @@ final class FeedViewAdapter: ResourceView {
             resourceView: FeedViewAdapter(
                 currentFeed: currentFeed,
                 viewModel: viewModel,
-                imageLoader: imageLoader,
-                selection: selection
+                imageLoader: imageLoader
             ),
             loadingView: WeakRefVirtualProxy(loadMoreViewModel),
             errorView: WeakRefVirtualProxy(loadMoreViewModel))
+        
         if page.havingMore() {
             viewModel.display(feed + [CellController(id: UUID(), loadMore)])
         } else {

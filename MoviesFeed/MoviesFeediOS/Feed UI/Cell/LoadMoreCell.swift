@@ -24,13 +24,38 @@ public struct LoadMoreCell: View {
                     .scaleEffect(1.5)
                     .padding(24)
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
-                
-            case let .errorMessage(message):
-                Text(message)
             case .idle:
                 Text(" ").task {
                     loadMore()
                 }
+            case let .error(message):
+                HStack {
+                    Text(message)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.leading)
+                    Spacer()
+                    Button(action: loadMore) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "arrow.clockwise")
+                            
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(Color.blue.opacity(0.85))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                    }
+                }
+                .padding()
+                .background(Color.gray)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(radius: 4)
+                .padding(.horizontal)
+                .padding(.bottom, 20)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.spring(), value: message)
+
+                
             }
         }
     }

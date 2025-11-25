@@ -57,8 +57,7 @@ class CompositionRoot {
         let presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
                 viewModel: viewModel,
-                imageLoader: self.makeLocalImageLoaderWithRemoteFallback,
-                selection: {_ in}),
+                imageLoader: self.makeLocalImageLoaderWithRemoteFallback),
             loadingView: WeakRefVirtualProxy(viewModel),
             errorView: WeakRefVirtualProxy(viewModel))
         
@@ -118,8 +117,16 @@ class CompositionRoot {
             .receive(on: scheduler)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
+            .tryMap(connectionError)
             .map(makeFirstPage)
             .eraseToAnyPublisher()
+    }
+    
+    private func connectionError(_ page: FeedMoviePage) throws -> FeedMoviePage {
+        guard !page.feed.isEmpty else {
+            throw NSError()
+        }
+        return page
     }
     
     func makeRemoteLoadMoreLoader(page: Int) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {

@@ -56,9 +56,11 @@ extension FeedMovieViewModel: ResourceLoadingView {
 
 extension FeedMovieViewModel: ResourceErrorView {
     public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
+        
         self.moviesFeedUIState = .init(
-            feed: [],
+            feed: moviesFeedUIState.feed,
             isLoading: false,
             errorMessage: viewModel.message)
+        
     }
 }

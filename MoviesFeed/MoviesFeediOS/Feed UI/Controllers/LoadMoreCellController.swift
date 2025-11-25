@@ -33,15 +33,4 @@ public class LoadMoreCellController: CellDataSource {
     }
 }
 
-extension LoadMoreViewModel: ResourceLoadingView, ResourceErrorView {
-    public func display(_ viewModel: ResourceErrorViewModel) {
-        guard let errorMessage = viewModel.message else {
-            return
-        }
-        state = .errorMessage(errorMessage)
-    }
-    
-    public func display(_ viewModel: ResourceLoadingViewModel) {
-        state = viewModel.isLoading ? .loading : .idle
-    }
-}
+
