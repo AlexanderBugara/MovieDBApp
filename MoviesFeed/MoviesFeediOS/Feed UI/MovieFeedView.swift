@@ -22,19 +22,19 @@ public struct MovieFeedView: View {
     public var body: some View {
         TextField("Search movies...", text: $query)
             .overlay(
-                    HStack {
-                        Spacer()
-                        if !query.isEmpty {
-                            Button {
-                                query = ""
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                            }
-                            .padding(.trailing, 8)
+                HStack {
+                    Spacer()
+                    if !query.isEmpty {
+                        Button {
+                            query = ""
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
                         }
+                        .padding(.trailing, 8)
                     }
-                )
+                }
+            )
             .padding(.horizontal)
             .textFieldStyle(.roundedBorder)
             .task(id: query) {

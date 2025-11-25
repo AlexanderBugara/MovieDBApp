@@ -44,3 +44,21 @@ public class FeedMovieViewModel: ObservableObject {
         onRefresh?(())
     }
 }
+
+extension FeedMovieViewModel: ResourceLoadingView {
+    public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
+        self.moviesFeedUIState = .init(
+            feed: [],
+            isLoading: false,
+            errorMessage: nil)
+    }
+}
+
+extension FeedMovieViewModel: ResourceErrorView {
+    public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
+        self.moviesFeedUIState = .init(
+            feed: [],
+            isLoading: false,
+            errorMessage: viewModel.message)
+    }
+}

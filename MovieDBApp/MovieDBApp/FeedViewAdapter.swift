@@ -106,39 +106,6 @@ extension Image {
         return Image(uiImage: uiImage)
     }
 }
-extension MoviePreviewModel: ResourceView {
-    public typealias ResourceViewModel = Image
-    public func display(_ resourceModel: ResourceViewModel) {
-        uiState = .image(resourceModel)
-    }
-}
-extension MoviePreviewModel: ResourceLoadingView {
-    public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
-        uiState = viewModel.isLoading ? .imageLoading : .idle
-    }
-}
-extension MoviePreviewModel: ResourceErrorView {
-    public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
-        uiState = .failed
-    }
-}
-extension FeedMovieViewModel: ResourceLoadingView {
-    public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
-        self.moviesFeedUIState = .init(
-            feed: [],
-            isLoading: false, 
-            errorMessage: nil)
-    }
-}
-
-extension FeedMovieViewModel: ResourceErrorView {
-    public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
-        self.moviesFeedUIState = .init(
-            feed: [],
-            isLoading: false,
-            errorMessage: viewModel.message)
-    }
-}
 
 extension Paginated where Item == FeedMoviePage {
     func havingMore() -> Bool {

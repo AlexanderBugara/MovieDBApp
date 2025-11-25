@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MoviesFeed
 
 public class MoviePreviewModel: ObservableObject {
     public enum UIState {
@@ -24,5 +25,22 @@ public class MoviePreviewModel: ObservableObject {
     
     public static func == (lhs: MoviePreviewModel, rhs: MoviePreviewModel) -> Bool {
         lhs.id == rhs.id && lhs.title == rhs.title
+    }
+}
+
+extension MoviePreviewModel: ResourceView {
+    public typealias ResourceViewModel = Image
+    public func display(_ resourceModel: ResourceViewModel) {
+        uiState = .image(resourceModel)
+    }
+}
+extension MoviePreviewModel: ResourceLoadingView {
+    public func display(_ viewModel: MoviesFeed.ResourceLoadingViewModel) {
+        uiState = viewModel.isLoading ? .imageLoading : .idle
+    }
+}
+extension MoviePreviewModel: ResourceErrorView {
+    public func display(_ viewModel: MoviesFeed.ResourceErrorViewModel) {
+        uiState = .failed
     }
 }

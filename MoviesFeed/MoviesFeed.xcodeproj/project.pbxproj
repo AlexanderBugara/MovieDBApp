@@ -292,9 +292,17 @@
 			path = "Feed API";
 			sourceTree = "<group>";
 		};
+		C87624172ED5E653007895EE /* Feed Presentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Feed Presentation";
+			sourceTree = "<group>";
+		};
 		C8AE8F542ECD035D0043DA0A /* MoviesFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				C87624172ED5E653007895EE /* Feed Presentation */,
 				C87624122ED5B4F4007895EE /* Feed API */,
 				C876240D2ED5B3B7007895EE /* Helpers */,
 				C87624072ED5AF26007895EE /* Shared API Infra */,
