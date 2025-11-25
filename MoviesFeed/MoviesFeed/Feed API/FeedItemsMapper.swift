@@ -49,16 +49,12 @@ public final class FeedItemsMapper {
     }
     
     public static func map(_ data: Data, from response: HTTPURLResponse,  baseImageURL: URL) throws -> FeedMoviePage {
-        do {
-            guard isOK(response) else {
-                throw Error.invalidData
-            }
-            let root = try JSONDecoder().decode(Root.self, from: data)
-            let page = root.page(baseImageURL)
-            return page
-        } catch {
-            return FeedMoviePage.empty
+        guard isOK(response) else {
+            throw Error.invalidData
         }
+        let root = try JSONDecoder().decode(Root.self, from: data)
+        let page = root.page(baseImageURL)
+        return page
     }
     
     private static func isOK(_ response: HTTPURLResponse) -> Bool {
