@@ -87,7 +87,7 @@ struct DetailViewCell: View {
                 }
                 
                 if let overview = model.overview, !overview.isEmpty {
-                    Text("Overview")
+                    Text(model.overviewLabel)
                         .font(.headline)
                     Text(overview)
                         .font(.body)
@@ -104,7 +104,7 @@ struct DetailViewCell: View {
             Text(vote.map { String(format: "%.1f", $0) } ?? "—")
                 .font(.title2)
                 .bold()
-            Text("Rating")
+            Text(model.ratingLabel)
                 .font(.caption)
                 .foregroundColor(.secondary)
         }

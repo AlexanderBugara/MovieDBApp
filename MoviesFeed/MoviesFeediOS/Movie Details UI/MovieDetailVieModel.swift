@@ -30,6 +30,14 @@ public class MovieDetailViewModel: ObservableObject {
         self.releaseDate = releaseDate
         self.voteAverage = voteAverage
     }
+    
+    var overviewLabel: String {
+        DetailPresentation.overview
+    }
+    
+    var ratingLabel: String {
+        DetailPresentation.raiting
+    }
 }
 extension MovieDetailViewModel: ResourceView {
     public typealias ResourceViewModel = Image

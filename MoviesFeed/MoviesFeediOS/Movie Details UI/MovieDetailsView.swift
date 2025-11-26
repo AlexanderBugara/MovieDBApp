@@ -29,7 +29,7 @@ public struct MovieDetailView: View {
             } else if let error = model.state.errorMessage {
                 errorView(error)
             } else {
-                emptyView
+                EmptyView()
             }
         }
         .navigationTitle(model.title)
@@ -52,16 +52,9 @@ public struct MovieDetailView: View {
     
     private func errorView(_ message: String) -> some View {
         VStack(spacing: 12) {
-            Text("Something went wrong")
-                .font(.headline)
             Text(message)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+                .font(.headline)
         }
         .padding()
-    }
-
-    private var emptyView: some View {
-        VStack { Text("No data") }
     }
 }

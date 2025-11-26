@@ -20,9 +20,7 @@ public class SearchViewModel: ObservableObject {
     }
     
     var placeholder: String {
-        NSLocalizedString("SEARCH_MOVIE",
-                          bundle: Bundle(for: Self.self),
-                          comment: "Placeholder for search text field")
+        FeedPresenter.searchPlaceholder
     }
     
     func onQueryChanged() {
