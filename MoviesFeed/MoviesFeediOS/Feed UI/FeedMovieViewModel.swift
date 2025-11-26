@@ -31,17 +31,9 @@ public class FeedMovieViewModel: ObservableObject {
             errorMessage: nil)
     }
     
-    func search(text: String) {
-        onPerformSearch?(Query(page: 1, text: text))
-    }
-    
     func appear() {
         onAppear?(())
         onAppear = nil
-    }
-    
-    func refresh() {
-        onRefresh?(())
     }
 }
 
@@ -62,5 +54,15 @@ extension FeedMovieViewModel: ResourceErrorView {
             isLoading: false,
             errorMessage: viewModel.message)
         
+    }
+}
+
+extension FeedMovieViewModel: FeedSearchable {
+    public func serch(_ text: String) {
+        onPerformSearch?(Query(page: 1, text: text))
+    }
+    
+    public func refresh() {
+        onRefresh?(())
     }
 }

@@ -38,7 +38,7 @@ public struct MovieDetailView: View {
             model.appear()
         }
         .refreshable {
-            model.refresh()         // pull-to-refresh action
+            model.refresh()
         }
     }
 

@@ -10,24 +10,25 @@ import Combine
 import MoviesFeed
 
 public struct MovieFeedView: View {
-    @ObservedObject var model: FeedMovieViewModel
-    @State var query: String = ""
-    @State private var previousQuery: String = ""
-    @State private var hasAppeared = false
+    @ObservedObject private var model: FeedMovieViewModel
     @StateObject private var errorViewModel = ErrorViewModel()
+    @StateObject private var searchViewModel: SearchViewModel
     
-    public init(model: FeedMovieViewModel) {
+    public init(model: FeedMovieViewModel,
+         searchViewModel: SearchViewModel)  {
         self.model = model
+        self._searchViewModel = StateObject(wrappedValue: searchViewModel)
     }
     
     public var body: some View {
-        TextField("Search movies...", text: $query)
+        
+        TextField("Search movies...", text: $searchViewModel.query)
             .overlay(
                 HStack {
                     Spacer()
-                    if !query.isEmpty {
+                    if !searchViewModel.query.isEmpty {
                         Button {
-                            query = ""
+                            searchViewModel.clearQuery()
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.gray)
@@ -38,23 +39,6 @@ public struct MovieFeedView: View {
             )
             .padding(.horizontal)
             .textFieldStyle(.roundedBorder)
-            .task(id: query) {
-                if !hasAppeared {
-                    hasAppeared = true
-                    return
-                }
-                let oldValue = previousQuery
-                previousQuery = query
-                
-                try? await Task.sleep(for: .milliseconds(350))
-                if query.isEmpty && !oldValue.isEmpty {
-                    previousQuery = ""
-                    model.refresh()
-                    return
-                } else if !query.isEmpty && query != oldValue {
-                    model.search(text: query)
-                }
-            }
         
         ScrollView {
             LazyVStack {
@@ -64,6 +48,9 @@ public struct MovieFeedView: View {
             }
         }
         .padding()
+        .onChange(of: searchViewModel.query) {  _, _ in
+            searchViewModel.onQueryChanged()
+                    }
         .onChange(of: model.moviesFeedUIState, { oldValue, newValue in
             errorViewModel.showError(newValue.errorMessage)
         })

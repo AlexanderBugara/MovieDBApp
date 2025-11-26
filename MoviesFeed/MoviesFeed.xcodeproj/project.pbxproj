@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C84DCE2F2ED7287900587EF7 /* MoviesSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84DCE2E2ED7287900587EF7 /* MoviesSearchView.swift */; };
+		C84DCE312ED72B2200587EF7 /* SearchModellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84DCE302ED72B2200587EF7 /* SearchModellable.swift */; };
 		C87623E02ED36BB7007895EE /* MoviePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AE90032ECFB2E30043DA0A /* MoviePreviewModel.swift */; };
 		C87623E22ED36BCD007895EE /* LoadMoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87623E12ED36BCD007895EE /* LoadMoreViewModel.swift */; };
 		C87623E82ED3C567007895EE /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87623E72ED3C567007895EE /* Query.swift */; };
@@ -134,6 +136,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C84DCE2E2ED7287900587EF7 /* MoviesSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesSearchView.swift; sourceTree = "<group>"; };
+		C84DCE302ED72B2200587EF7 /* SearchModellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModellable.swift; sourceTree = "<group>"; };
 		C87623E12ED36BCD007895EE /* LoadMoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreViewModel.swift; sourceTree = "<group>"; };
 		C87623E72ED3C567007895EE /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		C87623E92ED3C82B007895EE /* InMemorySearchFeedStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InMemorySearchFeedStore.swift; sourceTree = "<group>"; };
@@ -535,8 +539,10 @@
 			children = (
 				C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */,
 				C8BAC9552ED200BD00285940 /* FeedMovieViewModel.swift */,
+				C84DCE2E2ED7287900587EF7 /* MoviesSearchView.swift */,
 				C8BAC99E2ED3211000285940 /* Cell */,
 				C8BAC9992ED3154900285940 /* Controllers */,
+				C84DCE302ED72B2200587EF7 /* SearchModellable.swift */,
 			);
 			path = "Feed UI";
 			sourceTree = "<group>";
@@ -870,9 +876,11 @@
 				C8BAC9952ED3117200285940 /* CellController.swift in Sources */,
 				C87623F22ED476D1007895EE /* MovieDetailViewViewModel.swift in Sources */,
 				C87624242ED620A7007895EE /* BottomErrorView.swift in Sources */,
+				C84DCE312ED72B2200587EF7 /* SearchModellable.swift in Sources */,
 				C8BAC99D2ED3170200285940 /* LoadMoreCellController.swift in Sources */,
 				C8BAC99B2ED3159200285940 /* FeedMovieCellController.swift in Sources */,
 				C87624042ED4A20B007895EE /* DetailViewCell.swift in Sources */,
+				C84DCE2F2ED7287900587EF7 /* MoviesSearchView.swift in Sources */,
 				C8AE8FF72ECFA7150043DA0A /* MovieFeedView.swift in Sources */,
 				C87624002ED49D9B007895EE /* MovieDetailsController.swift in Sources */,
 			);

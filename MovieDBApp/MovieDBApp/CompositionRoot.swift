@@ -49,21 +49,28 @@ class CompositionRoot {
             self.makeRemoteSearchLoader(query: query)
         })
         
-        let viewModel = FeedMovieViewModel(
+        let feedViewModel = FeedMovieViewModel(
             onRefresh: presenterAdapter.loadResource,
             onPerformSearch: searchAdapter.loadResource)
         
         let presenter = LoadResourcePresenter(
             resourceView: FeedViewAdapter(
-                viewModel: viewModel,
+                viewModel: feedViewModel,
                 imageLoader: self.makeLocalImageLoaderWithRemoteFallback),
-            loadingView: WeakRefVirtualProxy(viewModel),
-            errorView: WeakRefVirtualProxy(viewModel))
+            loadingView: WeakRefVirtualProxy(feedViewModel),
+            errorView: WeakRefVirtualProxy(feedViewModel))
         
         presenterAdapter.presenter = presenter
         searchAdapter.presenter = presenter
         
-        return MovieFeedView(model: viewModel)
+        let searchViewModel = SearchViewModel(
+            searchDelegate: feedViewModel
+        )
+        
+        return MovieFeedView(
+            model: feedViewModel,
+            searchViewModel: searchViewModel
+        )
     }
     
     func makeDetailsView(feedModel: FeedMovie) -> MovieDetailView {
