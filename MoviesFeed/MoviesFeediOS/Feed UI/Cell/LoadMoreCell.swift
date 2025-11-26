@@ -25,7 +25,7 @@ public struct LoadMoreCell: View {
                     .padding(24)
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12))
             case .idle:
-                Text(" ").task {
+                Color.clear.task {
                     loadMore()
                 }
             case let .error(message):

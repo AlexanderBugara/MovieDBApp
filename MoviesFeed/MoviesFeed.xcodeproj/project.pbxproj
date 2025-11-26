@@ -537,12 +537,12 @@
 		C8BAC9982ED3152800285940 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
+				C84DCE302ED72B2200587EF7 /* SearchModellable.swift */,
 				C8AE8FF62ECFA7150043DA0A /* MovieFeedView.swift */,
 				C8BAC9552ED200BD00285940 /* FeedMovieViewModel.swift */,
 				C84DCE2E2ED7287900587EF7 /* MoviesSearchView.swift */,
 				C8BAC99E2ED3211000285940 /* Cell */,
 				C8BAC9992ED3154900285940 /* Controllers */,
-				C84DCE302ED72B2200587EF7 /* SearchModellable.swift */,
 			);
 			path = "Feed UI";
 			sourceTree = "<group>";
