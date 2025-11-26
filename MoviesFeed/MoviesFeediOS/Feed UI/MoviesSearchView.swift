@@ -19,6 +19,12 @@ public class SearchViewModel: ObservableObject {
         self.searchDelegate = searchDelegate
     }
     
+    var placeholder: String {
+        NSLocalizedString("SEARCH_MOVIE",
+                          bundle: Bundle(for: Self.self),
+                          comment: "Placeholder for search text field")
+    }
+    
     func onQueryChanged() {
         searchTask?.cancel()
         

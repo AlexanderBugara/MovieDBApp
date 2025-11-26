@@ -22,7 +22,7 @@ public struct MovieFeedView: View {
     
     public var body: some View {
         
-        TextField("Search movies...", text: $searchViewModel.query)
+        TextField(searchViewModel.placeholder, text: $searchViewModel.query)
             .overlay(
                 HStack {
                     Spacer()
