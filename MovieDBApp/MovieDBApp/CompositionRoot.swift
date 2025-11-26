@@ -17,7 +17,6 @@ private typealias FeedSearchPresentationAdapter = LoadResourcePresentationAdapte
 private typealias DetailsPresentationAdapter = LoadResourcePresentationAdapter<MovieDetail, MovieDetailAdapter, Int>
 
 class CompositionRoot {
-    let itemsPerPage = 20
     
     private func adapter() -> FeedPresentationAdapter {
         FeedPresentationAdapter(loader: self.makeRemoteFeedLoaderWithLocalFallback)
