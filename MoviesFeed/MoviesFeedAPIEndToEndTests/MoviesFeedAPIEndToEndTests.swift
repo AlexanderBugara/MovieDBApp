@@ -8,7 +8,7 @@
 import XCTest
 import Combine
 import MoviesFeed
-import MoviesFeediOS
+
 final class MoviesFeedAPIEndToEndTests: XCTestCase {
     var cancellable: AnyCancellable?
     
