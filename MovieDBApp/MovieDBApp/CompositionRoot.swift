@@ -116,16 +116,9 @@ class CompositionRoot {
             .receive(on: scheduler)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
-            .tryMap(connectionError)
+            .tryMap(IfEmpyThenError.verify)
             .map(makeFirstPage)
             .eraseToAnyPublisher()
-    }
-    
-    private func connectionError(_ page: FeedMoviePage) throws -> FeedMoviePage {
-        guard !page.feed.isEmpty else {
-            throw NSError()
-        }
-        return page
     }
     
     func makeRemoteLoadMoreLoader(page: Int) -> AnyPublisher<Paginated<FeedMoviePage>, Error> {
