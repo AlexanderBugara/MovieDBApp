@@ -7,8 +7,14 @@
 
 import Foundation
 
-public struct LocalFeedPage {
-    let index: Int
-    let total: Int
-    let feed: [LocalFeedMovie]
+public struct LocalFeedPage: Equatable {
+    public let index: Int
+    public let total: Int
+    public let feed: [LocalFeedMovie]
+    
+    public init(index: Int, total: Int, feed: [LocalFeedMovie]) {
+        self.index = index
+        self.total = total
+        self.feed = feed
+    }
 }

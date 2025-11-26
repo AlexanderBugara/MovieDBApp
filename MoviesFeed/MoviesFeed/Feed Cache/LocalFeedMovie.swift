@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LocalFeedMovie {
+public struct LocalFeedMovie: Equatable {
     public let movieId: Int
     public let name: String?
     public let url: URL
